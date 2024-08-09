@@ -2289,7 +2289,8 @@ public final class RMDataResumePasien extends javax.swing.JDialog {
          Sequel.cariIsi("select reg_periksa.no_rkm_medis from reg_periksa where reg_periksa.no_rawat='"+TNoRw.getText()+"' ",TNoRM);
          if(Sequel.cariInteger("select count(no_rawat) from pemeriksaan_ralan where no_rawat='"+TNoRw.getText()+"' ")>0){
             Keluhan.setText(Sequel.cariIsi("select concat(keluhan,'\n',pemeriksaan)as keluhan from pemeriksaan_ralan where no_rawat=?",TNoRw.getText())); 
-            Obat2an.setText(Sequel.cariIsi("select rtl from pemeriksaan_ralan where no_rawat=?",TNoRw.getText()));       
+            Obat2an.setText(Sequel.cariIsi("select rtl from pemeriksaan_ralan where no_rawat=?",TNoRw.getText())); 
+            PemeriksaanPenunjang.setText(Sequel.cariIsi("select kesimpulan FROM hasil_pemeriksaan_usg where no_rawat=?",TNoRw.getText()));
         }
     }
 

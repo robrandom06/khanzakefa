@@ -171,6 +171,38 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         Kesimpulan.setDocument(new batasInput((int)200).getKata(Kesimpulan));
         TCari.setDocument(new batasInput((int)100).getKata(TCari));
         
+        HTA.setVisible(false);
+        JenisPrestasi.setVisible(false);
+        UkuranKantong.setVisible(false);
+        UkuranBokong.setVisible(false);
+        DiameterBiparietal.setVisible(false);
+        PanjangFemur.setVisible(false);
+        LingkarAbdomen.setVisible(false);
+        TafsiranBerat.setVisible(false);
+        UsiaKehamilan.setVisible(false);
+        Plasenta.setVisible(false);
+        IndexCairan.setVisible(false);
+        Kelainan.setVisible(false);
+        DerajatMaturitas.setVisible(false);
+        JumlahAir.setVisible(false);
+        PeluangSex.setVisible(false);
+        jLabel31.setVisible(false);
+        jLabel33.setVisible(false);
+        jLabel34.setVisible(false);
+        jLabel35.setVisible(false);
+        jLabel36.setVisible(false);
+        jLabel37.setVisible(false);
+        jLabel38.setVisible(false);
+        jLabel39.setVisible(false);
+        jLabel40.setVisible(false);
+        jLabel41.setVisible(false);
+        jLabel42.setVisible(false);
+        jLabel43.setVisible(false);
+        jLabel125.setVisible(false);
+        jLabel126.setVisible(false);
+        jLabel127.setVisible(false);
+        
+        
         if(koneksiDB.CARICEPAT().equals("aktif")){
             TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
                 @Override
@@ -625,7 +657,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         label11.setBounds(538, 40, 52, 23);
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "05-01-2024 08:15:26" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-08-2024 15:34:57" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -685,7 +717,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         jLabel33.setText("Ukuran Kantong Gestasi (GS) :");
         jLabel33.setName("jLabel33"); // NOI18N
         FormInput.add(jLabel33);
-        jLabel33.setBounds(0, 140, 165, 23);
+        jLabel33.setBounds(40, 380, 146, 10);
 
         UkuranKantong.setFocusTraversalPolicyProvider(true);
         UkuranKantong.setName("UkuranKantong"); // NOI18N
@@ -695,12 +727,12 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(UkuranKantong);
-        UkuranKantong.setBounds(169, 140, 60, 23);
+        UkuranKantong.setBounds(370, 360, 60, 23);
 
         jLabel34.setText("Ukuran Bokong - Kepala (CRL) :");
         jLabel34.setName("jLabel34"); // NOI18N
         FormInput.add(jLabel34);
-        jLabel34.setBounds(240, 140, 180, 23);
+        jLabel34.setBounds(540, 360, 180, 23);
 
         UkuranBokong.setFocusTraversalPolicyProvider(true);
         UkuranBokong.setName("UkuranBokong"); // NOI18N
@@ -710,8 +742,9 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(UkuranBokong);
-        UkuranBokong.setBounds(424, 140, 60, 23);
+        UkuranBokong.setBounds(230, 360, 60, 23);
 
+        JenisPrestasi.setEnabled(false);
         JenisPrestasi.setFocusTraversalPolicyProvider(true);
         JenisPrestasi.setName("JenisPrestasi"); // NOI18N
         JenisPrestasi.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -730,7 +763,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         jLabel36.setText("Diameter Biparietal (DBP) :");
         jLabel36.setName("jLabel36"); // NOI18N
         FormInput.add(jLabel36);
-        jLabel36.setBounds(510, 140, 150, 23);
+        jLabel36.setBounds(430, 360, 150, 23);
 
         DiameterBiparietal.setFocusTraversalPolicyProvider(true);
         DiameterBiparietal.setName("DiameterBiparietal"); // NOI18N
@@ -740,12 +773,12 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(DiameterBiparietal);
-        DiameterBiparietal.setBounds(664, 140, 60, 23);
+        DiameterBiparietal.setBounds(290, 360, 60, 23);
 
         jLabel37.setText("Panjang Femur (FL) :");
         jLabel37.setName("jLabel37"); // NOI18N
         FormInput.add(jLabel37);
-        jLabel37.setBounds(0, 170, 165, 23);
+        jLabel37.setBounds(0, 350, 165, 23);
 
         PanjangFemur.setFocusTraversalPolicyProvider(true);
         PanjangFemur.setName("PanjangFemur"); // NOI18N
@@ -755,12 +788,12 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(PanjangFemur);
-        PanjangFemur.setBounds(169, 170, 60, 23);
+        PanjangFemur.setBounds(150, 360, 60, 23);
 
         jLabel38.setText("Lingkar Abdomen (AC) :");
         jLabel38.setName("jLabel38"); // NOI18N
         FormInput.add(jLabel38);
-        jLabel38.setBounds(240, 170, 180, 23);
+        jLabel38.setBounds(330, 360, 180, 23);
 
         LingkarAbdomen.setFocusTraversalPolicyProvider(true);
         LingkarAbdomen.setName("LingkarAbdomen"); // NOI18N
@@ -770,12 +803,12 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(LingkarAbdomen);
-        LingkarAbdomen.setBounds(424, 170, 60, 23);
+        LingkarAbdomen.setBounds(150, 320, 60, 23);
 
         jLabel39.setText("Tafsiran berat Janin (TBJ) :");
         jLabel39.setName("jLabel39"); // NOI18N
         FormInput.add(jLabel39);
-        jLabel39.setBounds(510, 170, 150, 23);
+        jLabel39.setBounds(490, 360, 150, 23);
 
         TafsiranBerat.setFocusTraversalPolicyProvider(true);
         TafsiranBerat.setName("TafsiranBerat"); // NOI18N
@@ -785,12 +818,12 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(TafsiranBerat);
-        TafsiranBerat.setBounds(664, 170, 60, 23);
+        TafsiranBerat.setBounds(300, 350, 60, 23);
 
         jLabel40.setText("Usia Kehamilan Sesuai :");
         jLabel40.setName("jLabel40"); // NOI18N
         FormInput.add(jLabel40);
-        jLabel40.setBounds(0, 200, 165, 23);
+        jLabel40.setBounds(40, 310, 112, 10);
 
         UsiaKehamilan.setFocusTraversalPolicyProvider(true);
         UsiaKehamilan.setName("UsiaKehamilan"); // NOI18N
@@ -800,12 +833,12 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(UsiaKehamilan);
-        UsiaKehamilan.setBounds(169, 200, 130, 23);
+        UsiaKehamilan.setBounds(210, 310, 64, 20);
 
         jLabel41.setText("Plasenta Berimplatansi Di :");
         jLabel41.setName("jLabel41"); // NOI18N
         FormInput.add(jLabel41);
-        jLabel41.setBounds(300, 200, 150, 23);
+        jLabel41.setBounds(120, 380, 126, 10);
 
         Plasenta.setFocusTraversalPolicyProvider(true);
         Plasenta.setName("Plasenta"); // NOI18N
@@ -815,12 +848,12 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(Plasenta);
-        Plasenta.setBounds(454, 200, 270, 23);
+        Plasenta.setBounds(290, 380, 60, 20);
 
         jLabel125.setText("Derajat Maturitas Plasenta :");
         jLabel125.setName("jLabel125"); // NOI18N
         FormInput.add(jLabel125);
-        jLabel125.setBounds(0, 230, 165, 23);
+        jLabel125.setBounds(40, 340, 135, 10);
 
         DerajatMaturitas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3" }));
         DerajatMaturitas.setName("DerajatMaturitas"); // NOI18N
@@ -830,7 +863,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(DerajatMaturitas);
-        DerajatMaturitas.setBounds(169, 230, 60, 23);
+        DerajatMaturitas.setBounds(210, 350, 72, 10);
 
         JumlahAir.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cukup", "Berkurang" }));
         JumlahAir.setName("JumlahAir"); // NOI18N
@@ -840,17 +873,17 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(JumlahAir);
-        JumlahAir.setBounds(390, 230, 100, 23);
+        JumlahAir.setBounds(430, 350, 81, 10);
 
         jLabel126.setText("Jumlah Air Ketuban :");
         jLabel126.setName("jLabel126"); // NOI18N
         FormInput.add(jLabel126);
-        jLabel126.setBounds(266, 230, 120, 23);
+        jLabel126.setBounds(310, 340, 99, 10);
 
         jLabel42.setText("Indeks Cairan Ketuban (ICK) :");
         jLabel42.setName("jLabel42"); // NOI18N
         FormInput.add(jLabel42);
-        jLabel42.setBounds(0, 260, 165, 23);
+        jLabel42.setBounds(40, 340, 144, 10);
 
         IndexCairan.setFocusTraversalPolicyProvider(true);
         IndexCairan.setName("IndexCairan"); // NOI18N
@@ -860,7 +893,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(IndexCairan);
-        IndexCairan.setBounds(169, 260, 160, 23);
+        IndexCairan.setBounds(210, 340, 64, 20);
 
         Kelainan.setFocusTraversalPolicyProvider(true);
         Kelainan.setName("Kelainan"); // NOI18N
@@ -870,17 +903,17 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(Kelainan);
-        Kelainan.setBounds(484, 260, 240, 23);
+        Kelainan.setBounds(530, 340, 30, 20);
 
         jLabel43.setText("Kelainan Kongenital Mayor :");
         jLabel43.setName("jLabel43"); // NOI18N
         FormInput.add(jLabel43);
-        jLabel43.setBounds(320, 260, 160, 23);
+        jLabel43.setBounds(360, 340, 133, 10);
 
         jLabel127.setText("Peluang Sex :");
         jLabel127.setName("jLabel127"); // NOI18N
         FormInput.add(jLabel127);
-        jLabel127.setBounds(535, 230, 80, 23);
+        jLabel127.setBounds(580, 340, 66, 10);
 
         PeluangSex.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Laki-laki", "Perempuan", "-" }));
         PeluangSex.setName("PeluangSex"); // NOI18N
@@ -890,12 +923,12 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         FormInput.add(PeluangSex);
-        PeluangSex.setBounds(619, 230, 105, 23);
+        PeluangSex.setBounds(660, 350, 86, 10);
 
         jLabel44.setText("Kesimpulan :");
         jLabel44.setName("jLabel44"); // NOI18N
         FormInput.add(jLabel44);
-        jLabel44.setBounds(0, 290, 165, 23);
+        jLabel44.setBounds(0, 140, 80, 23);
 
         scrollPane17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         scrollPane17.setName("scrollPane17"); // NOI18N
@@ -912,7 +945,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         scrollPane17.setViewportView(Kesimpulan);
 
         FormInput.add(scrollPane17);
-        scrollPane17.setBounds(169, 290, 555, 63);
+        scrollPane17.setBounds(100, 150, 600, 150);
 
         scrollInput.setViewportView(FormInput);
 
@@ -955,7 +988,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "05-01-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-08-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -969,7 +1002,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "05-01-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-08-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -1169,8 +1202,6 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             Valid.textKosong(BtnDokter,"Dokter");
         }else if(DiagnosaKlinis.getText().trim().equals("")){
             Valid.textKosong(DiagnosaKlinis,"Diagnosa Klinis");
-        }else if(HTA.getText().trim().equals("")){
-            Valid.textKosong(HTA,"HTA");
         }else if(Kesimpulan.getText().trim().equals("")){
             Valid.textKosong(Kesimpulan,"Kesimpulan");
         }else{
@@ -1585,10 +1616,6 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         Valid.pindah(evt,JumlahAir,IndexCairan);
     }//GEN-LAST:event_PeluangSexKeyPressed
 
-    private void KesimpulanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KesimpulanKeyPressed
-        Valid.pindah2(evt,Kelainan,BtnSimpan);
-    }//GEN-LAST:event_KesimpulanKeyPressed
-
     private void ChkAccorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkAccorActionPerformed
         if(tbObat.getSelectedRow()!= -1){
             isPhoto();
@@ -1649,6 +1676,10 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
     private void TabDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabDataMouseClicked
         tampilOrthanc();
     }//GEN-LAST:event_TabDataMouseClicked
+
+    private void KesimpulanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KesimpulanKeyPressed
+        Valid.pindah2(evt,Kelainan,BtnSimpan);
+    }//GEN-LAST:event_KesimpulanKeyPressed
 
     /**
     * @param args the command line arguments
