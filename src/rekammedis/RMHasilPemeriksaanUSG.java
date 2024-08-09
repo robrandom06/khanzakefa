@@ -1889,8 +1889,10 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
     private void isRawat() {
         try {
             ps=koneksi.prepareStatement(
-                    "select reg_periksa.no_rkm_medis,pasien.nm_pasien, pasien.tgl_lahir,reg_periksa.tgl_registrasi "+
+                    "select reg_periksa.no_rkm_medis,pasien.nm_pasien, pasien.tgl_lahir,reg_periksa.tgl_registrasi,penyakit.nm_penyakit "+
                     "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
+                    "left join diagnosa_pasien on reg_periksa.no_rawat = diagnosa_pasien.no_rawat " +
+                    "left join penyakit on diagnosa_pasien.kd_penyakit = penyakit.kd_penyakit " +
                     "where reg_periksa.no_rawat=?");
             try {
                 ps.setString(1,TNoRw.getText());
@@ -1900,6 +1902,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
                     DTPCari1.setDate(rs.getDate("tgl_registrasi"));
                     TPasien.setText(rs.getString("nm_pasien"));
                     TglLahir.setText(rs.getString("tgl_lahir"));
+                    DiagnosaKlinis.setText(rs.getString("nm_penyakit"));
                 }
             } catch (Exception e) {
                 System.out.println("Notif : "+e);
