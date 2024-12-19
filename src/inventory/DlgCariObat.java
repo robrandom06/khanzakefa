@@ -59,8 +59,8 @@ public final class DlgCariObat extends javax.swing.JDialog {
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
     private Connection koneksi=koneksiDB.condb();
-    private PreparedStatement psobat,pscarikapasitas,psstok,ps2,psbatch,psrekening;
-    private ResultSet rsobat,carikapasitas,rsstok,rs2,rsbatch,rsrekening;
+    private PreparedStatement psobat,pscarikapasitas,psstok,ps2,psbatch,psrekening,pscarikronis;
+    private ResultSet rsobat,carikapasitas,rsstok,rs2,rsbatch,rsrekening,carikronis;
     private double h_belicari=0, hargacari=0, sisacari=0,x=0,y=0,embalase=Sequel.cariIsiAngka("select set_embalase.embalase_per_obat from set_embalase"),
                    tuslah=Sequel.cariIsiAngka("select set_embalase.tuslah_per_obat from set_embalase"),kenaikan=0,stokbarang=0,ttl=0,ppnobat=0,ttlhpp,ttljual;
     private int i=0,z=0,row=0,row2,r;
@@ -3226,6 +3226,25 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                                     }
                                 }
                             }else{
+                                pscarikronis=koneksi.prepareStatement("SELECT detail_pemberian_obat.kode_brng,kategori_barang.nama FROM `reg_periksa` "
+                                        + "INNER JOIN detail_pemberian_obat on reg_periksa.no_rawat=detail_pemberian_obat.no_rawat "
+                                        + "inner join databarang on detail_pemberian_obat.kode_brng = databarang.kode_brng\n" +
+                                            "inner join kategori_barang on databarang.kode_kategori = kategori_barang.kode where no_rkm_medis=? "
+                                        + "and DATEDIFF(now(),tgl_registrasi)<30 and detail_pemberian_obat.kode_brng=? and nama='Obat Kronis' and detail_pemberian_obat.status='Ralan'");
+                                try{
+                                    pscarikronis.setString(1,TNoRM.getText());
+                                    pscarikronis.setString(2,tbObat.getValueAt(row,2).toString());
+                                    carikronis=pscarikronis.executeQuery();
+                                    if(carikronis.next() == true){
+                                        
+                                    JOptionPane.showMessageDialog(null,"Obat Kronis diberikan belum 30 hari");
+                                tbObat.setValueAt("",row,1);
+                                carikronis.close();
+                                    }
+                                
+                                }catch (Exception e){
+                                     System.out.println("Notifikasi : "+e);
+                                }
                                 psstok=koneksi.prepareStatement("select ifnull(gudangbarang.stok,'0') from gudangbarang where gudangbarang.kd_bangsal=? and gudangbarang.kode_brng=? and gudangbarang.no_batch='' and gudangbarang.no_faktur=''");
                                 try {
                                     psstok.setString(1,kdgudang.getText());

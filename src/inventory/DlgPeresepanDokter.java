@@ -30,8 +30,11 @@ import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.Timer;
@@ -50,8 +53,8 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
     private Connection koneksi=koneksiDB.condb();
-    private PreparedStatement psresep,pscarikapasitas,psresepasuransi,ps2;
-    private ResultSet rsobat,carikapasitas,rs2;
+    private PreparedStatement psresep,pscarikapasitas,psresepasuransi,ps2,pscarikronis;
+    private ResultSet rsobat,carikapasitas,rs2,carikronis;
     private double x=0,y=0,kenaikan=0,ttl=0,ppnobat=0,jumlahracik=0,persenracik=0,kapasitasracik=0;
     private int i=0,z=0,row2=0,r=0;
     private boolean ubah=false,copy=false,sukses=true;
@@ -65,7 +68,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
     private DlgCariMetodeRacik metoderacik=new DlgCariMetodeRacik(null,false);
     public DlgCariDokter dokter=new DlgCariDokter(null,false);
     private String noracik="",aktifkanbatch="no",STOKKOSONGRESEP="no",qrystokkosong="",tampilkan_ppnobat_ralan="",status="",bangsal="",resep="",DEPOAKTIFOBAT="",
-            kamar="",norawatibu="",kelas,bangsaldefault=Sequel.cariIsi("select set_lokasi.kd_bangsal from set_lokasi limit 1"),RESEPRAJALKEPLAN="no";
+            kamar="",norawatibu="",kelas,bangsaldefault=Sequel.cariIsi("select set_lokasi.kd_bangsal from set_lokasi limit 1"),RESEPRAJALKEPLAN="no",norm="";
     /** Creates new form DlgPenyakit
      * @param parent
      * @param modal */
@@ -3959,18 +3962,44 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     
     private void getCekStok() {
         if(tbResep.getSelectedRow()!= -1){
-            if(STOKKOSONGRESEP.equals("no")){
-                try {
-                    if(Double.parseDouble(tbResep.getValueAt(tbResep.getSelectedRow(),1).toString())>0){
-                        if(Valid.SetAngka(tbResep.getValueAt(tbResep.getSelectedRow(),1).toString())>Valid.SetAngka(tbResep.getValueAt(tbResep.getSelectedRow(),11).toString())){
-                            JOptionPane.showMessageDialog(rootPane,"Maaf stok tidak mencukupi..!!");
-                            tbResep.setValueAt("",tbResep.getSelectedRow(),1);
-                        }
-                    }
-                } catch (Exception e) {
-                    tbResep.setValueAt("",tbResep.getSelectedRow(),1);
-                } 
-            }  
+                                try{
+                                    row2=tbResep.getSelectedRow();
+                                    norm=Sequel.cariIsi("select no_rkm_medis from reg_periksa where no_rawat=? ",TNoRw.getText());
+                                    pscarikronis=koneksi.prepareStatement("SELECT detail_pemberian_obat.kode_brng,kategori_barang.nama FROM `reg_periksa` "
+                                            + "INNER JOIN detail_pemberian_obat on reg_periksa.no_rawat=detail_pemberian_obat.no_rawat "
+                                            + "inner join databarang on detail_pemberian_obat.kode_brng = databarang.kode_brng\n" +
+                                            "inner join kategori_barang on databarang.kode_kategori = kategori_barang.kode where no_rkm_medis=? "
+                                            + "and DATEDIFF(now(),tgl_registrasi)<30 and detail_pemberian_obat.kode_brng=? and nama='Obat Kronis' and detail_pemberian_obat.status='Ralan'");
+                                    try{
+                                        pscarikronis.setString(1,norm);
+                                        pscarikronis.setString(2,tbResep.getValueAt(row2, 3).toString());
+                                        carikronis=pscarikronis.executeQuery();
+                                        if(carikronis.next() == true){
+                                            
+                                            JOptionPane.showMessageDialog(null,"Obat Kronis diberikan belum 30 hari");
+                                            tbResep.setValueAt("",row2,1);
+                                            carikronis.close();
+                                        }
+                                        
+                                    }catch (Exception e){
+                                        System.out.println("Notifikasi : "+e);
+                                    }
+                                    
+                                    if(STOKKOSONGRESEP.equals("no")){
+                                        try {
+                                            if(Double.parseDouble(tbResep.getValueAt(tbResep.getSelectedRow(),1).toString())>0){
+                                                if(Valid.SetAngka(tbResep.getValueAt(tbResep.getSelectedRow(),1).toString())>Valid.SetAngka(tbResep.getValueAt(tbResep.getSelectedRow(),11).toString())){
+                                                    JOptionPane.showMessageDialog(rootPane,"Maaf stok tidak mencukupi..!!");
+                                                    tbResep.setValueAt("",tbResep.getSelectedRow(),1);
+                                                }
+                                            }
+                                        } catch (Exception e) {
+                                            tbResep.setValueAt("",tbResep.getSelectedRow(),1);
+                                        }
+                                    }
+                                }catch (SQLException ex){
+                                     Logger.getLogger(DlgPeresepanDokter.class.getName()).log(Level.SEVERE, null, ex);
+                                }
         }               
     }
     
