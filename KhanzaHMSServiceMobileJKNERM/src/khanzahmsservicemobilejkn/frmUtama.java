@@ -817,8 +817,8 @@ public class frmUtama extends javax.swing.JFrame {
 //                                                        }  
                                                         
                                                        if(!nameNode.path("code").asText().equals("200")){
-                                                          Sequel.menyimpantf2("referensi_mobilejkn_bpjs_taskid_gagal","?,?,?,?","task id error",3,new String[]{rs.getString("no_rawat"), "6", errorCode, errorMessage});
-                                                        Sequel.menyimpan("referensi_mobilejkn_bpjs_gagal","'"+rs.getString("no_rawat")+"','"+datajam+"','"+nameNode.path("message").asText()+"'");
+//                                                          Sequel.menyimpantf2("referensi_mobilejkn_bpjs_taskid_gagal","?,?,?,?","task id error",4,new String[]{rs.getString("no_rawat"), "3", errorCode, errorMessage});
+//                                                        Sequel.menyimpan("referensi_mobilejkn_bpjs_gagal","'"+rs.getString("no_rawat")+"','"+datajam+"','"+nameNode.path("message").asText()+"'");
                                                         }
                                                         TeksArea.append("respon WS BPJS : "+nameNode.path("code").asText()+" "+nameNode.path("message").asText()+"\n");
                                                     }
@@ -826,15 +826,18 @@ public class frmUtama extends javax.swing.JFrame {
                                                     System.out.println("Notifikasi Bridging : "+ex);
                                                 }
                                                 
-                                                String newjam = Sequel.cariIsi("SELECT IF(mutasi_berkas.dikirim='0000-00-00 00:00:00', '', mutasi_berkas.dikirim) FROM mutasi_berkas WHERE mutasi_berkas.no_rawat=?",rs.getString("no_rawat"));
+                                                String norawat =rs.getString("no_rawat");
+                                                String tglRegistrasi = rs.getString("tgl_registrasi");
+                                                String jamMulai = rs2.getString("jam_mulai");              
+                                                String newjam = Sequel.cariIsi("SELECT dikirim FROM mutasi_berkas WHERE no_rawat=?", norawat);
+                                                if(newjam.equals("")){
+                                                    newjam = Sequel.cariIsi("SELECT CONCAT(tgl_registrasi,' ',jam_reg) AS tanggal FROM reg_periksa WHERE no_rawat=?", norawat);
+                                                }
                                                 // datajam=Sequel.cariIsi("select if(concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg)>concat('"+rs.getString("tgl_registrasi")+"',' ','"+rs2.getString("jam_mulai")+"'),concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg),concat('"+rs.getString("tgl_registrasi")+"',' ','"+newjam+"')) as tanggal from reg_periksa where reg_periksa.no_rawat=?",rs.getString("no_rawat"));
                                                datajam = Sequel.cariIsi(
-                                                                    "SELECT IF(CONCAT(reg_periksa.tgl_registrasi, ' ', reg_periksa.jam_reg) > CONCAT('0+rs.getString("tgl_registrasi") + "', ' ', '" + rs2.getString("jam_mulai") + "'), " +
-                                                                    "CONCAT(reg_periksa.tgl_registrasi, ' ', reg_periksa.jam_reg), " +
-                                                                    "CONCAT('" + rs.getString("tgl_registrasi") + "', ' ', '" + newjam + "')) AS tanggal " +
-                                                                    "FROM reg_periksa WHERE reg_periksa.no_rawat = '" + rs.getString("no_rawat") + "'"
-                                                                );
-                                               System.out.println(datajam);
+                                                            "SELECT IF('"+ newjam +"' > CONCAT('"+ tglRegistrasi +"', ' ', '"+ jamMulai +"'), '"+ newjam +"', CONCAT('"+ tglRegistrasi +"', ' ', '"+ jamMulai +"')) AS tanggal "+
+                                                            "FROM reg_periksa WHERE reg_periksa.no_rawat=?", norawat
+                                                        );   
 
                                                 //datajam=Sequel.cariIsi("select if(concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg)>concat('"+rs.getString("tgl_registrasi")+"',' ','"+rs2.getString("jam_mulai")+"'),concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg),concat('"+rs.getString("tgl_registrasi")+"',' ','"+rs2.getString("jam_mulai")+"')) as tanggal from reg_periksa where reg_periksa.no_rawat=?",rs.getString("no_rawat"));
                                                 if(!datajam.equals("")){
