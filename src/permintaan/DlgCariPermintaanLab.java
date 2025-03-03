@@ -2171,44 +2171,44 @@ private void tbLabRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                                 Sequel.menyimpan("temporary_permintaan_lab","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?",38,new String[]{
                                     "0",rs2.getString("nm_perawatan"),"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
                                 });
-                                ps3=koneksi.prepareStatement(
-                                        "select permintaan_detail_permintaan_lab.id_template,template_laboratorium.Pemeriksaan,"+
-                                        "template_laboratorium.satuan,template_laboratorium.nilai_rujukan_ld,template_laboratorium.nilai_rujukan_la,"+
-                                        "template_laboratorium.nilai_rujukan_pd,template_laboratorium.nilai_rujukan_pa from permintaan_detail_permintaan_lab "+
-                                        "inner join template_laboratorium on permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template "+
-                                        "where permintaan_detail_permintaan_lab.kd_jenis_prw=? and permintaan_detail_permintaan_lab.noorder=? order by template_laboratorium.urut");
-                                try {
-                                    ps3.setString(1,rs2.getString("kd_jenis_prw"));
-                                    ps3.setString(2,NoPermintaan);
-                                    rs3=ps3.executeQuery();
-                                    while(rs3.next()){
-                                        la="";ld="";pa="";pd="";
-                                        if(!rs3.getString("nilai_rujukan_ld").equals("")){
-                                            ld="LD : "+rs3.getString("nilai_rujukan_ld");
-                                        }
-                                        if(!rs3.getString("nilai_rujukan_la").equals("")){
-                                            la=", LA : "+rs3.getString("nilai_rujukan_la");
-                                        }
-                                        if(!rs3.getString("nilai_rujukan_pa").equals("")){
-                                            pd=", PD : "+rs3.getString("nilai_rujukan_pd");
-                                        }
-                                        if(!rs3.getString("nilai_rujukan_pd").equals("")){
-                                            pa=" PA : "+rs3.getString("nilai_rujukan_pa");
-                                        }
-                                        Sequel.menyimpan("temporary_permintaan_lab","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?",38,new String[]{
-                                            "0","  "+rs3.getString("Pemeriksaan"),rs3.getString("satuan"),ld+la+pd+pa,"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
-                                        });
-                                    }
-                                } catch (Exception e) {
-                                    System.out.println("Notif 3 : "+e);
-                                } finally{
-                                    if(rs3!=null){
-                                        rs3.close();
-                                    }
-                                    if(ps3!=null){
-                                        ps3.close();
-                                    }
-                                }
+//                                ps3=koneksi.prepareStatement(
+//                                        "select permintaan_detail_permintaan_lab.id_template,template_laboratorium.Pemeriksaan,"+
+//                                        "template_laboratorium.satuan,template_laboratorium.nilai_rujukan_ld,template_laboratorium.nilai_rujukan_la,"+
+//                                        "template_laboratorium.nilai_rujukan_pd,template_laboratorium.nilai_rujukan_pa from permintaan_detail_permintaan_lab "+
+//                                        "inner join template_laboratorium on permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template "+
+//                                        "where permintaan_detail_permintaan_lab.kd_jenis_prw=? and permintaan_detail_permintaan_lab.noorder=? order by template_laboratorium.urut");
+//                                try {
+//                                    ps3.setString(1,rs2.getString("kd_jenis_prw"));
+//                                    ps3.setString(2,NoPermintaan);
+//                                    rs3=ps3.executeQuery();
+//                                    while(rs3.next()){
+//                                        la="";ld="";pa="";pd="";
+//                                        if(!rs3.getString("nilai_rujukan_ld").equals("")){
+//                                            ld="LD : "+rs3.getString("nilai_rujukan_ld");
+//                                        }
+//                                        if(!rs3.getString("nilai_rujukan_la").equals("")){
+//                                            la=", LA : "+rs3.getString("nilai_rujukan_la");
+//                                        }
+//                                        if(!rs3.getString("nilai_rujukan_pa").equals("")){
+//                                            pd=", PD : "+rs3.getString("nilai_rujukan_pd");
+//                                        }
+//                                        if(!rs3.getString("nilai_rujukan_pd").equals("")){
+//                                            pa=" PA : "+rs3.getString("nilai_rujukan_pa");
+//                                        }
+//                                        Sequel.menyimpan("temporary_permintaan_lab","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?",38,new String[]{
+//                                            "0","  "+rs3.getString("Pemeriksaan"),rs3.getString("satuan"),ld+la+pd+pa,"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
+//                                        });
+//                                    }
+//                                } catch (Exception e) {
+//                                    System.out.println("Notif 3 : "+e);
+//                                } finally{
+//                                    if(rs3!=null){
+//                                        rs3.close();
+//                                    }
+//                                    if(ps3!=null){
+//                                        ps3.close();
+//                                    }
+//                                }
                             }
                         } catch (Exception e) {
                             System.out.println("Notif 2 : "+e);
@@ -2284,44 +2284,44 @@ private void tbLabRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                                 Sequel.menyimpan("temporary_permintaan_lab","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?",38,new String[]{
                                     "0",rs2.getString("nm_perawatan"),"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
                                 });
-                                ps3=koneksi.prepareStatement(
-                                        "select permintaan_detail_permintaan_lab.id_template,template_laboratorium.Pemeriksaan,"+
-                                        "template_laboratorium.satuan,template_laboratorium.nilai_rujukan_ld,template_laboratorium.nilai_rujukan_la,"+
-                                        "template_laboratorium.nilai_rujukan_pd,template_laboratorium.nilai_rujukan_pa from permintaan_detail_permintaan_lab "+
-                                        "inner join template_laboratorium on permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template "+
-                                        "where permintaan_detail_permintaan_lab.kd_jenis_prw=? and permintaan_detail_permintaan_lab.noorder=? order by template_laboratorium.urut");
-                                try {
-                                    ps3.setString(1,rs2.getString("kd_jenis_prw"));
-                                    ps3.setString(2,NoPermintaan);
-                                    rs3=ps3.executeQuery();
-                                    while(rs3.next()){
-                                        la="";ld="";pa="";pd="";
-                                        if(!rs3.getString("nilai_rujukan_ld").equals("")){
-                                            ld="LD : "+rs3.getString("nilai_rujukan_ld");
-                                        }
-                                        if(!rs3.getString("nilai_rujukan_la").equals("")){
-                                            la=", LA : "+rs3.getString("nilai_rujukan_la");
-                                        }
-                                        if(!rs3.getString("nilai_rujukan_pa").equals("")){
-                                            pd=", PD : "+rs3.getString("nilai_rujukan_pd");
-                                        }
-                                        if(!rs3.getString("nilai_rujukan_pd").equals("")){
-                                            pa=" PA : "+rs3.getString("nilai_rujukan_pa");
-                                        }
-                                        Sequel.menyimpan("temporary_permintaan_lab","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?",38,new String[]{
-                                            "0","  "+rs3.getString("Pemeriksaan"),rs3.getString("satuan"),ld+la+pd+pa,"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
-                                        });
-                                    }
-                                } catch (Exception e) {
-                                    System.out.println("Notif 3 : "+e);
-                                } finally{
-                                    if(rs3!=null){
-                                        rs3.close();
-                                    }
-                                    if(ps3!=null){
-                                        ps3.close();
-                                    }
-                                }
+//                                ps3=koneksi.prepareStatement(
+//                                        "select permintaan_detail_permintaan_lab.id_template,template_laboratorium.Pemeriksaan,"+
+//                                        "template_laboratorium.satuan,template_laboratorium.nilai_rujukan_ld,template_laboratorium.nilai_rujukan_la,"+
+//                                        "template_laboratorium.nilai_rujukan_pd,template_laboratorium.nilai_rujukan_pa from permintaan_detail_permintaan_lab "+
+//                                        "inner join template_laboratorium on permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template "+
+//                                        "where permintaan_detail_permintaan_lab.kd_jenis_prw=? and permintaan_detail_permintaan_lab.noorder=? order by template_laboratorium.urut");
+//                                try {
+//                                    ps3.setString(1,rs2.getString("kd_jenis_prw"));
+//                                    ps3.setString(2,NoPermintaan);
+//                                    rs3=ps3.executeQuery();
+//                                    while(rs3.next()){
+//                                        la="";ld="";pa="";pd="";
+//                                        if(!rs3.getString("nilai_rujukan_ld").equals("")){
+//                                            ld="LD : "+rs3.getString("nilai_rujukan_ld");
+//                                        }
+//                                        if(!rs3.getString("nilai_rujukan_la").equals("")){
+//                                            la=", LA : "+rs3.getString("nilai_rujukan_la");
+//                                        }
+//                                        if(!rs3.getString("nilai_rujukan_pa").equals("")){
+//                                            pd=", PD : "+rs3.getString("nilai_rujukan_pd");
+//                                        }
+//                                        if(!rs3.getString("nilai_rujukan_pd").equals("")){
+//                                            pa=" PA : "+rs3.getString("nilai_rujukan_pa");
+//                                        }
+//                                        Sequel.menyimpan("temporary_permintaan_lab","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?",38,new String[]{
+//                                            "0","  "+rs3.getString("Pemeriksaan"),rs3.getString("satuan"),ld+la+pd+pa,"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
+//                                        });
+//                                    }
+//                                } catch (Exception e) {
+//                                    System.out.println("Notif 3 : "+e);
+//                                } finally{
+//                                    if(rs3!=null){
+//                                        rs3.close();
+//                                    }
+//                                    if(ps3!=null){
+//                                        ps3.close();
+//                                    }
+//                                }
                             }
                         } catch (Exception e) {
                             System.out.println("Notif 2 : "+e);

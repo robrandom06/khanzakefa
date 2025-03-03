@@ -50,6 +50,7 @@ import inventory.DlgResepPulang;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import kepegawaian.DlgCariDokter;
 import simrskhanza.DlgCariCaraBayar;
 import simrskhanza.DlgCariPeriksaLabPA;
 import simrskhanza.DlgInputResepPulang;
@@ -67,6 +68,7 @@ public class DlgBilingRanap extends javax.swing.JDialog {
     public DlgRawatInap rawatinap=new DlgRawatInap(null,false);
     public DlgDeposit deposit=new DlgDeposit(null,false);
     public DlgCariCaraBayar carabayar=new DlgCariCaraBayar(null,false);
+    public DlgCariDokter dokter=new DlgCariDokter(null,false);
     private Connection koneksi=koneksiDB.condb();
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();

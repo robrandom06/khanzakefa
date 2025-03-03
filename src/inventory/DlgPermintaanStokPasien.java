@@ -50,7 +50,7 @@ public class DlgPermintaanStokPasien extends javax.swing.JDialog {
     public DlgCariAturanPakai aturanpakaiobat=new DlgCariAturanPakai(null,false);
     private double ttl=0,y=0,ppnobat=0,stokobat,kenaikan=0;
     private int jml=0,i=0,index=0;
-    private String norawatibu,tampilkan_ppnobat_ranap="",aktifkanbatch="no",kelas="",bangsal="",kamar="",hppfarmasi="";
+    private String norawatibu,tampilkan_ppnobat_ranap="",aktifkanbatch="no",kelas="",bangsal="",kamar="",hppfarmasi="",STOKKOSONGRESEP="no";
     private String[] keranap,kodebarang,namabarang,kategori,satuan,aturanpakai;
     private Double[] kapasitas,stok,harga,hargabeli,subtotal;
     private boolean[] jam00,jam01,jam02,jam03,jam04,jam05,jam06,jam07,jam08,jam09,jam10,jam11,jam12,jam13,jam14,jam15,jam16,jam17,jam18,jam19,jam20,jam21,jam22,jam23;
@@ -252,9 +252,11 @@ public class DlgPermintaanStokPasien extends javax.swing.JDialog {
             
             try {
                 aktifkanbatch = koneksiDB.AKTIFKANBATCHOBAT();
+                STOKKOSONGRESEP = koneksiDB.STOKKOSONGRESEP();
             } catch (Exception e) {
                 System.out.println("E : "+e);
                 aktifkanbatch = "no";
+                STOKKOSONGRESEP="no";
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -1467,8 +1469,9 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             try {
                 if(Double.parseDouble(tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString())>0){
                     if(Valid.SetAngka(tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString())>Valid.SetAngka(tbDokter.getValueAt(tbDokter.getSelectedRow(),6).toString())){
-                        JOptionPane.showMessageDialog(rootPane,"Maaf stok tidak mencukupi..!!");
-                        tbDokter.setValueAt("",tbDokter.getSelectedRow(),0);
+                        if(STOKKOSONGRESEP.equals("no")){
+                        JOptionPane.showMessageDialog(rootPane,"Maaf stok3 tidak mencukupi..!!");
+                        tbDokter.setValueAt("",tbDokter.getSelectedRow(),0);}
                     }else{
                         tbDokter.setValueAt(Double.parseDouble(tabMode.getValueAt(tbDokter.getSelectedRow(),0).toString())*Double.parseDouble(tabMode.getValueAt(tbDokter.getSelectedRow(),7).toString()),tbDokter.getSelectedRow(),9);
                     }
@@ -1476,7 +1479,6 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             } catch (Exception e) {
                 tbDokter.setValueAt("",tbDokter.getSelectedRow(),0);
             }   
-            
             ttl=0;
             for(int r=0;r<tabMode.getRowCount();r++){ 
                  y=0;
@@ -1558,7 +1560,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                     rstampil=pstampil.executeQuery();
                     while(rstampil.next()){
                         if(rstampil.getDouble("jml")>rstampil.getDouble("stok")){
-                            JOptionPane.showMessageDialog(rootPane,"Maaf stok tidak mencukupi..!!");
+                            JOptionPane.showMessageDialog(rootPane,"Maaf stok2 tidak mencukupi..!!");
                             tabMode.addRow(new Object[]{
                                rstampil.getDouble("stok"),rstampil.getString("kode_brng"),
                                rstampil.getString("nama_brng"),
@@ -1655,7 +1657,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                     rstampil=pstampil.executeQuery();
                     while(rstampil.next()){
                         if(rstampil.getDouble("jml")>rstampil.getDouble("stok")){
-                            JOptionPane.showMessageDialog(rootPane,"Maaf stok tidak mencukupi..!!");
+                            JOptionPane.showMessageDialog(rootPane,"Maaf stok1 tidak mencukupi..!!");
                             if(Jeniskelas.getSelectedItem().equals("Kelas 1")){
                                 tabMode.addRow(new Object[]{
                                    rstampil.getDouble("stok"),rstampil.getString("kode_brng"),

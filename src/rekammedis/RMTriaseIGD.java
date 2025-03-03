@@ -72,6 +72,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
     public RMTriaseIGD(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setupAutoSyncTTV();
         this.setLocation(8,1);
         tabMode=new DefaultTableModel(null,new Object[]{
                 "No.Rawat","No.RM","Nama Pasien","Tgl.Kunjungan","Cara Masuk","Transportasi",
@@ -2285,6 +2286,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
             Sequel.AutoComitTrue();
             if(sukses==true){
                 emptTeks();
+                JOptionPane.showMessageDialog(null, "Data berhasil disimpan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
             }
         }
 }//GEN-LAST:event_BtnSimpanActionPerformed
@@ -3897,7 +3899,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             "data_triase_igdprimer.plan,data_triase_igdprimer.tanggaltriase,data_triase_igdprimer.nik,data_triase_igd.tekanan_darah,"+
                             "data_triase_igd.nadi,data_triase_igd.pernapasan,data_triase_igd.suhu,data_triase_igd.saturasi_o2,data_triase_igd.nyeri,"+
                             "data_triase_igd.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,pasien.jk,pasien.tgl_lahir,pegawai.nama,data_triase_igd.tgl_kunjungan, "+
-                            "data_triase_igd.cara_masuk,master_triase_macam_kasus.macam_kasus from data_triase_igdprimer inner join data_triase_igd "+
+                            "data_triase_igd.cara_masuk,master_triase_macam_kasus.macam_kasus,reg_periksa.tgl_registrasi,reg_periksa.jam_reg from data_triase_igdprimer inner join data_triase_igd "+
                             "inner join pasien inner join pegawai inner join reg_periksa inner join master_triase_macam_kasus on "+
                             "data_triase_igd.no_rawat=data_triase_igdprimer.no_rawat and reg_periksa.no_rawat=data_triase_igd.no_rawat "+
                             "and reg_periksa.no_rkm_medis=pasien.no_rkm_medis and pegawai.nik=data_triase_igdprimer.nik "+
@@ -3911,8 +3913,8 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                 param.put("namapasien",rs.getString("nm_pasien"));
                                 param.put("tanggallahir",rs.getDate("tgl_lahir"));
                                 param.put("jk",rs.getString("jk").replaceAll("L","Laki-Laki").replaceAll("P","Perempuan"));
-                                param.put("tanggalkunjungan",rs.getDate("tgl_kunjungan"));
-                                param.put("jamkunjungan",rs.getString("tgl_kunjungan").toString().substring(11,19));
+                                param.put("tanggalkunjungan",rs.getDate("tgl_registrasi"));
+                                param.put("jamkunjungan",rs.getString("jam_reg"));
                                 param.put("caradatang",rs.getString("cara_masuk"));
                                 param.put("macamkasus",rs.getString("macam_kasus"));
                                 param.put("keluhanutama",rs.getString("keluhan_utama"));
@@ -4018,7 +4020,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             "data_triase_igdprimer.plan,data_triase_igdprimer.tanggaltriase,data_triase_igdprimer.nik,data_triase_igd.tekanan_darah,"+
                             "data_triase_igd.nadi,data_triase_igd.pernapasan,data_triase_igd.suhu,data_triase_igd.saturasi_o2,data_triase_igd.nyeri,"+
                             "data_triase_igd.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,pasien.jk,pasien.tgl_lahir,pegawai.nama,data_triase_igd.tgl_kunjungan, "+
-                            "data_triase_igd.cara_masuk,master_triase_macam_kasus.macam_kasus from data_triase_igdprimer inner join data_triase_igd "+
+                            "data_triase_igd.cara_masuk,master_triase_macam_kasus.macam_kasus,reg_periksa.tgl_registrasi,reg_periksa.jam_reg from data_triase_igdprimer inner join data_triase_igd "+
                             "inner join pasien inner join pegawai inner join reg_periksa inner join master_triase_macam_kasus on "+
                             "data_triase_igd.no_rawat=data_triase_igdprimer.no_rawat and reg_periksa.no_rawat=data_triase_igd.no_rawat "+
                             "and reg_periksa.no_rkm_medis=pasien.no_rkm_medis and pegawai.nik=data_triase_igdprimer.nik "+
@@ -4032,8 +4034,8 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                 param.put("namapasien",rs.getString("nm_pasien"));
                                 param.put("tanggallahir",rs.getDate("tgl_lahir"));
                                 param.put("jk",rs.getString("jk").replaceAll("L","Laki-Laki").replaceAll("P","Perempuan"));
-                                param.put("tanggalkunjungan",rs.getDate("tgl_kunjungan"));
-                                param.put("jamkunjungan",rs.getString("tgl_kunjungan").toString().substring(11,19));
+                                param.put("tanggalkunjungan",rs.getDate("tgl_registrasi"));
+                                param.put("jamkunjungan",rs.getString("jam_reg"));
                                 param.put("caradatang",rs.getString("cara_masuk"));
                                 param.put("macamkasus",rs.getString("macam_kasus"));
                                 param.put("keluhanutama",rs.getString("keluhan_utama"));
@@ -4139,7 +4141,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             "data_triase_igdsekunder.plan,data_triase_igdsekunder.tanggaltriase,data_triase_igdsekunder.nik,data_triase_igd.tekanan_darah,"+
                             "data_triase_igd.nadi,data_triase_igd.pernapasan,data_triase_igd.suhu,data_triase_igd.saturasi_o2,data_triase_igd.nyeri,"+
                             "data_triase_igd.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,pasien.jk,pasien.tgl_lahir,pegawai.nama,data_triase_igd.tgl_kunjungan, "+
-                            "data_triase_igd.cara_masuk,master_triase_macam_kasus.macam_kasus from data_triase_igdsekunder inner join data_triase_igd "+
+                            "data_triase_igd.cara_masuk,master_triase_macam_kasus.macam_kasus,reg_periksa.tgl_registrasi,reg_periksa.jam_reg from data_triase_igdsekunder inner join data_triase_igd "+
                             "inner join pasien inner join pegawai inner join reg_periksa inner join master_triase_macam_kasus on "+
                             "data_triase_igd.no_rawat=data_triase_igdsekunder.no_rawat and reg_periksa.no_rawat=data_triase_igd.no_rawat "+
                             "and reg_periksa.no_rkm_medis=pasien.no_rkm_medis and pegawai.nik=data_triase_igdsekunder.nik "+
@@ -4153,8 +4155,8 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                 param.put("namapasien",rs.getString("nm_pasien"));
                                 param.put("tanggallahir",rs.getDate("tgl_lahir"));
                                 param.put("jk",rs.getString("jk").replaceAll("L","Laki-Laki").replaceAll("P","Perempuan"));
-                                param.put("tanggalkunjungan",rs.getDate("tgl_kunjungan"));
-                                param.put("jamkunjungan",rs.getString("tgl_kunjungan").toString().substring(11,19));
+                                param.put("tanggalkunjungan",rs.getDate("tgl_registrasi"));
+                                param.put("jamkunjungan",rs.getString("jam_reg"));
                                 param.put("caradatang",rs.getString("cara_masuk"));
                                 param.put("macamkasus",rs.getString("macam_kasus"));
                                 param.put("keluhanutama",rs.getString("anamnesa_singkat"));
@@ -4259,7 +4261,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             "data_triase_igdsekunder.plan,data_triase_igdsekunder.tanggaltriase,data_triase_igdsekunder.nik,data_triase_igd.tekanan_darah,"+
                             "data_triase_igd.nadi,data_triase_igd.pernapasan,data_triase_igd.suhu,data_triase_igd.saturasi_o2,data_triase_igd.nyeri,"+
                             "data_triase_igd.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,pasien.jk,pasien.tgl_lahir,pegawai.nama,data_triase_igd.tgl_kunjungan, "+
-                            "data_triase_igd.cara_masuk,master_triase_macam_kasus.macam_kasus from data_triase_igdsekunder inner join data_triase_igd "+
+                            "data_triase_igd.cara_masuk,master_triase_macam_kasus.macam_kasus,reg_periksa.tgl_registrasi,reg_periksa.jam_reg from data_triase_igdsekunder inner join data_triase_igd "+
                             "inner join pasien inner join pegawai inner join reg_periksa inner join master_triase_macam_kasus on "+
                             "data_triase_igd.no_rawat=data_triase_igdsekunder.no_rawat and reg_periksa.no_rawat=data_triase_igd.no_rawat "+
                             "and reg_periksa.no_rkm_medis=pasien.no_rkm_medis and pegawai.nik=data_triase_igdsekunder.nik "+
@@ -4273,8 +4275,8 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                 param.put("namapasien",rs.getString("nm_pasien"));
                                 param.put("tanggallahir",rs.getDate("tgl_lahir"));
                                 param.put("jk",rs.getString("jk").replaceAll("L","Laki-Laki").replaceAll("P","Perempuan"));
-                                param.put("tanggalkunjungan",rs.getDate("tgl_kunjungan"));
-                                param.put("jamkunjungan",rs.getString("tgl_kunjungan").toString().substring(11,19));
+                                param.put("tanggalkunjungan",rs.getDate("tgl_registrasi"));
+                                param.put("jamkunjungan",rs.getString("jam_reg"));
                                 param.put("caradatang",rs.getString("cara_masuk"));
                                 param.put("macamkasus",rs.getString("macam_kasus"));
                                 param.put("keluhanutama",rs.getString("anamnesa_singkat"));
@@ -4379,7 +4381,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             "data_triase_igdsekunder.plan,data_triase_igdsekunder.tanggaltriase,data_triase_igdsekunder.nik,data_triase_igd.tekanan_darah,"+
                             "data_triase_igd.nadi,data_triase_igd.pernapasan,data_triase_igd.suhu,data_triase_igd.saturasi_o2,data_triase_igd.nyeri,"+
                             "data_triase_igd.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,pasien.jk,pasien.tgl_lahir,pegawai.nama,data_triase_igd.tgl_kunjungan, "+
-                            "data_triase_igd.cara_masuk,master_triase_macam_kasus.macam_kasus from data_triase_igdsekunder inner join data_triase_igd "+
+                            "data_triase_igd.cara_masuk,master_triase_macam_kasus.macam_kasus,reg_periksa.tgl_registrasi,reg_periksa.jam_reg from data_triase_igdsekunder inner join data_triase_igd "+
                             "inner join pasien inner join pegawai inner join reg_periksa inner join master_triase_macam_kasus on "+
                             "data_triase_igd.no_rawat=data_triase_igdsekunder.no_rawat and reg_periksa.no_rawat=data_triase_igd.no_rawat "+
                             "and reg_periksa.no_rkm_medis=pasien.no_rkm_medis and pegawai.nik=data_triase_igdsekunder.nik "+
@@ -4393,8 +4395,8 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                 param.put("namapasien",rs.getString("nm_pasien"));
                                 param.put("tanggallahir",rs.getDate("tgl_lahir"));
                                 param.put("jk",rs.getString("jk").replaceAll("L","Laki-Laki").replaceAll("P","Perempuan"));
-                                param.put("tanggalkunjungan",rs.getDate("tgl_kunjungan"));
-                                param.put("jamkunjungan",rs.getString("tgl_kunjungan").toString().substring(11,19));
+                                param.put("tanggalkunjungan",rs.getDate("tgl_registrasi"));
+                                param.put("jamkunjungan",rs.getString("jam_reg"));
                                 param.put("caradatang",rs.getString("cara_masuk"));
                                 param.put("macamkasus",rs.getString("macam_kasus"));
                                 param.put("keluhanutama",rs.getString("anamnesa_singkat"));
@@ -4774,6 +4776,83 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         jmlskala1=0;jmlskala2=0;jmlskala3=0;jmlskala4=0;jmlskala5=0;
         kodepetugas="";
     }
+    
+   private void setupAutoSyncTTV() {
+    PrimerSuhu.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            SekunderSuhu.setText(PrimerSuhu.getText());
+        }
+    });
+
+    SekunderSuhu.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            PrimerSuhu.setText(SekunderSuhu.getText());
+        }
+    });
+
+    PrimerNyeri.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            SekunderNyeri.setText(PrimerNyeri.getText());
+        }
+    });
+
+    SekunderNyeri.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            PrimerNyeri.setText(SekunderNyeri.getText());
+        }
+    });
+
+    PrimerTensi.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            SekunderTensi.setText(PrimerTensi.getText());
+        }
+    });
+
+    SekunderTensi.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            PrimerTensi.setText(SekunderTensi.getText());
+        }
+    });
+
+    PrimerNadi.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            SekunderNadi.setText(PrimerNadi.getText());
+        }
+    });
+
+    SekunderNadi.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            PrimerNadi.setText(SekunderNadi.getText());
+        }
+    });
+
+    PrimerSaturasi.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            SekunderSaturasi.setText(PrimerSaturasi.getText());
+        }
+    });
+
+    SekunderSaturasi.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            PrimerSaturasi.setText(SekunderSaturasi.getText());
+        }
+    });
+
+    PrimerRespirasi.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            SekunderRespirasi.setText(PrimerRespirasi.getText());
+        }
+    });
+
+    SekunderRespirasi.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            PrimerRespirasi.setText(SekunderRespirasi.getText());
+        }
+    });
+}
+
+
+
     
     public void setNoRm(String norwt,String norm,String namapasien) {
         emptTeks();

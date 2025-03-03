@@ -88,7 +88,7 @@ public final class DlgPeriksaRadiologi extends javax.swing.JDialog {
         
         tabMode=new DefaultTableModel(null,new Object[]{
             "P","Kode Periksa","Nama Pemeriksaan","Tarif","Bagian RS","BHP","Tarif Perujuk","Tarif Dokter","Tarif Petugas","Kso","Menejemen",
-            "Proyeksi","kV","mAS","FFD","BSF","Inak","Jml Penyinaran","Dosis Radiasi"
+            "Indikasi Klinis","kV","mAS","FFD","BSF","Inak","Jml Penyinaran","Dosis Radiasi"
         }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){
                 boolean a = false;
@@ -1497,7 +1497,7 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
             pemeriksaan="";
             for(i=0;i<tbPemeriksaan.getRowCount();i++){
                 if(tbPemeriksaan.getValueAt(i,0).toString().equals("true")){
-                    pemeriksaan=tbPemeriksaan.getValueAt(i,2).toString()+" dengan Proyeksi : "+tbPemeriksaan.getValueAt(i,11).toString()+", kV : "+tbPemeriksaan.getValueAt(i,12).toString()+", mAS : "+tbPemeriksaan.getValueAt(i,13).toString()+", FFD : "+tbPemeriksaan.getValueAt(i,14).toString()+", BSF : "+tbPemeriksaan.getValueAt(i,15).toString()+", Inak : "+tbPemeriksaan.getValueAt(i,16).toString()+", Jml Penyinaran : "+tbPemeriksaan.getValueAt(i,17).toString()+", Dosis Radiasi : "+tbPemeriksaan.getValueAt(i,18).toString()+", "+pemeriksaan;
+                    pemeriksaan=tbPemeriksaan.getValueAt(i,2).toString()+" Proyeksi : "+tbPemeriksaan.getValueAt(i,11).toString()+", kV : "+tbPemeriksaan.getValueAt(i,12).toString()+", mAS : "+tbPemeriksaan.getValueAt(i,13).toString()+", FFD : "+tbPemeriksaan.getValueAt(i,14).toString()+", BSF : "+tbPemeriksaan.getValueAt(i,15).toString()+", Inak : "+tbPemeriksaan.getValueAt(i,16).toString()+", Jml Penyinaran : "+tbPemeriksaan.getValueAt(i,17).toString()+", Dosis Radiasi : "+tbPemeriksaan.getValueAt(i,18).toString()+", "+pemeriksaan;
                 }
             }
             Map<String, Object> param = new HashMap<>();
