@@ -576,6 +576,11 @@ public final class DlgCariPerawatanRalan extends javax.swing.JDialog {
         kddokter.setHighlighter(null);
         kddokter.setName("kddokter"); // NOI18N
         kddokter.setPreferredSize(new java.awt.Dimension(120, 23));
+        kddokter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kddokterActionPerformed(evt);
+            }
+        });
         kddokter.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 kddokterKeyPressed(evt);
@@ -588,6 +593,11 @@ public final class DlgCariPerawatanRalan extends javax.swing.JDialog {
         nmdokter.setHighlighter(null);
         nmdokter.setName("nmdokter"); // NOI18N
         nmdokter.setPreferredSize(new java.awt.Dimension(400, 23));
+        nmdokter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nmdokterActionPerformed(evt);
+            }
+        });
         FormInput.add(nmdokter);
         nmdokter.setBounds(162, 10, 240, 23);
 
@@ -642,7 +652,7 @@ public final class DlgCariPerawatanRalan extends javax.swing.JDialog {
         jLabel7.setBounds(431, 10, 59, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-02-2022" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-11-2023" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -1138,6 +1148,14 @@ private void ppPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         tampil();
     }//GEN-LAST:event_formWindowOpened
+
+    private void nmdokterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nmdokterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nmdokterActionPerformed
+
+    private void kddokterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kddokterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kddokterActionPerformed
 
     /**
     * @param args the command line arguments
