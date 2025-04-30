@@ -1235,11 +1235,18 @@ where resume_pasien.no_rawat= $P{norawat}]]>
 				</textElement>
 				<text><![CDATA[Obat-obatan waktu pulang/nasihat :]]></text>
 			</staticText>
-			<image hAlign="Center">
-				<reportElement x="20" y="714" width="160" height="56" uuid="89ca7971-3d44-409e-a4dc-6a391b1426d4"/>
-				<imageExpression><![CDATA[$P{gambar} != null ? new java.net.URL($P{gambar}) : null
-]]></imageExpression>
+			<image scaleImage="FillFrame" hAlign="Center">
+				<reportElement x="20" y="714" width="250" height="66" uuid="89ca7971-3d44-409e-a4dc-6a391b1426d4"/>
+				<imageExpression><![CDATA[$P{gambar} != null ? new java.net.URL($P{gambar}) : null]]></imageExpression>
 			</image>
+			<componentElement>
+				<reportElement x="350" y="730" width="156" height="48" isRemoveLineWhenBlank="true" uuid="d39aa4c3-8a92-4d43-8886-f2a999eda281">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" errorCorrectionLevel="H">
+					<jr:codeExpression><![CDATA[$P{finger}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
 		</band>
 	</detail>
 	<columnFooter>

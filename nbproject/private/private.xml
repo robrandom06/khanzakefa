@@ -20,13 +20,16 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/github/khanzakefa/src/keuangan/DlgBilingRanap.java</file>
+            <file>file:/E:/github/khanzakefa/src/bridging/BPJSDataSEP.java</file>
+            <file>file:/E:/github/khanzakefa/src/keuangan/DlgBilingRalan.java</file>
             <file>file:/E:/github/khanzakefa/src/simrskhanza/DlgReg.java</file>
             <file>file:/E:/github/khanzakefa/src/rekammedis/RMDataResumePasien.java</file>
-            <file>file:/E:/github/khanzakefa/src/simrskhanza/DlgRawatJalan.java</file>
+            <file>file:/E:/github/khanzakefa/src/rekammedis/RMDataResumePasienRanap.java</file>
             <file>file:/E:/github/khanzakefa/src/fungsi/validasi.java</file>
             <file>file:/E:/github/khanzakefa/src/simrskhanza/DlgRawatInap.java</file>
+            <file>file:/E:/github/khanzakefa/src/fungsi/FileUploader.java</file>
             <file>file:/E:/github/khanzakefa/src/simrskhanza/DlgKamarInap.java</file>
+            <file>file:/E:/github/khanzakefa/src/simrskhanza/DlgKasirRalan.java</file>
         </group>
     </open-files>
 </project-private>
