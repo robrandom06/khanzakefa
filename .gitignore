@@ -1,3 +1,5 @@
-/dist/
-/setting/
-/build/
+dist/
+setting/
+build/
+lib/
+nbproject/
