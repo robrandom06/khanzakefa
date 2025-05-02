@@ -12,6 +12,7 @@ import fungsi.validasi;
 import fungsi.akses;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import fungsi.FileUploader;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
@@ -49,7 +50,7 @@ public final class PRawatInap extends javax.swing.JDialog {
     private int i=0;
     private DlgCariDokter dokter=new DlgCariDokter(null,false);
     private DlgCariDokter2 dokter2=new DlgCariDokter2(null,false);
-    private String aktifjadwal="";
+    private String aktifjadwal="",FileName="";
    
         private String finger = "";
     public PRawatInap(java.awt.Frame parent, boolean modal) {
@@ -155,6 +156,7 @@ public final class PRawatInap extends javax.swing.JDialog {
 
         jPopupMenu2 = new javax.swing.JPopupMenu();
         cetakPengatarRawatInap = new javax.swing.JMenuItem();
+        UploadBerkasDigitalPRawatInap = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         panelGlass8 = new widget.panelisi();
         BtnSimpan = new widget.Button();
@@ -226,7 +228,22 @@ public final class PRawatInap extends javax.swing.JDialog {
             }
         });
         jPopupMenu2.add(cetakPengatarRawatInap);
-        cetakPengatarRawatInap.getAccessibleContext().setAccessibleName("Laporan Pengantar Rawat Inap");
+
+        UploadBerkasDigitalPRawatInap.setBackground(new java.awt.Color(255, 255, 254));
+        UploadBerkasDigitalPRawatInap.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        UploadBerkasDigitalPRawatInap.setForeground(new java.awt.Color(50, 50, 50));
+        UploadBerkasDigitalPRawatInap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        UploadBerkasDigitalPRawatInap.setText("Upload Berkas Digital Pengantar Rawat Inap");
+        UploadBerkasDigitalPRawatInap.setToolTipText("");
+        UploadBerkasDigitalPRawatInap.setComponentPopupMenu(jPopupMenu2);
+        UploadBerkasDigitalPRawatInap.setName("UploadBerkasDigitalPRawatInap"); // NOI18N
+        UploadBerkasDigitalPRawatInap.setPreferredSize(new java.awt.Dimension(220, 26));
+        UploadBerkasDigitalPRawatInap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UploadBerkasDigitalPRawatInapActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(UploadBerkasDigitalPRawatInap);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -448,7 +465,7 @@ public final class PRawatInap extends javax.swing.JDialog {
         jLabel11.setBounds(60, 80, 30, 23);
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-04-2025 03:19:42" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-05-2025 17:51:53" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -644,7 +661,7 @@ public final class PRawatInap extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-04-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-05-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -658,7 +675,7 @@ public final class PRawatInap extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-04-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-05-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -714,7 +731,6 @@ public final class PRawatInap extends javax.swing.JDialog {
         internalFrame1.add(TabRawat, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(internalFrame1, java.awt.BorderLayout.CENTER);
-        internalFrame1.getAccessibleContext().setAccessibleName("::[ Pengantar Rawat Inap ]::");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1012,6 +1028,37 @@ public final class PRawatInap extends javax.swing.JDialog {
     }
     }//GEN-LAST:event_cetakPengatarRawatInapActionPerformed
 
+    private void UploadBerkasDigitalPRawatInapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UploadBerkasDigitalPRawatInapActionPerformed
+        // TODO add your handling code here:
+        FileName = "PENGANTAR RANAP_"+ tbObat.getValueAt(tbObat.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbObat.getValueAt(tbObat.getSelectedRow(), 2).toString();
+        CreatePDF(FileName);
+        String filePath = "tmpPDF/" + FileName;
+        FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "PENGANTAR RANAP", tbObat,1);
+    }//GEN-LAST:event_UploadBerkasDigitalPRawatInapActionPerformed
+    private void CreatePDF(String FileName){
+        if (tbObat.getSelectedRow() > -1) {
+              this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                Map<String, Object> param = new HashMap<>();
+                param.put("namars", akses.getnamars());
+                param.put("alamatrs", akses.getalamatrs());
+                param.put("kotars", akses.getkabupatenrs());
+                param.put("propinsirs", akses.getpropinsirs());
+                param.put("kontakrs", akses.getkontakrs());
+                param.put("emailrs", akses.getemailrs());
+                param.put("logo", Sequel.cariGambar("select setting.logo from setting"));
+                String noRawat = tbObat.getValueAt(tbObat.getSelectedRow(), 1).toString();
+                param.put("NoRawat", noRawat); // <-- INI YANG KURANG SEBELUMNYA
+                System.out.println( noRawat);
+                // "No.RM", "No.Rawat","Tanggal","Nama Pasien", "KD.DPJP", "Nama DPJP", "KD.DR.IGD","Nama Dokter IGD", "Diagnosa", "Pengobatan"
+                finger = Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?", tbObat.getValueAt(tbObat.getSelectedRow(), 6).toString());
+            param.put("finger", "Dikeluarkan di " + akses.getnamars() + ", Kabupaten/Kota " + akses.getkabupatenrs() + "\nDitandatangani secara elektronik oleh " + tbObat.getValueAt(tbObat.getSelectedRow(), 6).toString() + "\nID " + (finger.equals("") ? tbObat.getValueAt(tbObat.getSelectedRow(), 7).toString() : finger) + "\n" + Valid.SetTgl3(tbObat.getValueAt(tbObat.getSelectedRow(), 7).toString()));
+//                Valid.MyReport("rptCetakPengantarRawatInap.jasper",param, "::[ Cetak Pengantar Rawat Inap ]::");
+                Valid.MyReportPDFUpload("rptCetakPengantarRawatInap.jasper", "report", "::[ Laporan Pengantar Rawat Inap ]::",FileName, param);
+                this.setCursor(Cursor.getDefaultCursor());
+    } else {
+        JOptionPane.showMessageDialog(null, "Silakan pilih data terlebih dahulu!");
+    }
+    }
     /**
     * @param args the command line arguments
     */
@@ -1057,6 +1104,7 @@ public final class PRawatInap extends javax.swing.JDialog {
     private widget.Tanggal Tanggal;
     private widget.TextArea Tdiagnosa;
     private widget.TextBox TglLahir;
+    private javax.swing.JMenuItem UploadBerkasDigitalPRawatInap;
     private javax.swing.JMenuItem cetakPengatarRawatInap;
     private widget.InternalFrame internalFrame1;
     private widget.InternalFrame internalFrame2;
