@@ -12,6 +12,7 @@
 
 package rekammedis;
 
+import fungsi.FileUploader;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -62,7 +63,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
     private boolean[] pilih; 
     private String[] kode,pengkajian;
     private DlgCariPegawai pegawai=new DlgCariPegawai(null,false);
-    private String keputusan="",pilihan="",datatriase="",finger="",kodepetugas="";
+    private String keputusan="",pilihan="",datatriase="",finger="",kodepetugas="",FileName="";
     private StringBuilder htmlContent;
     private boolean sukses=true;
     
@@ -905,7 +906,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         jLabel28.setBounds(362, 10, 90, 23);
 
         PrimerTanggalTriase.setForeground(new java.awt.Color(50, 70, 50));
-        PrimerTanggalTriase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "08-06-2022 22:54:21" }));
+        PrimerTanggalTriase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-05-2025 13:08:31" }));
         PrimerTanggalTriase.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         PrimerTanggalTriase.setName("PrimerTanggalTriase"); // NOI18N
         PrimerTanggalTriase.setOpaque(false);
@@ -1332,7 +1333,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         jLabel37.setBounds(362, 10, 90, 23);
 
         SekunderTanggalTriase.setForeground(new java.awt.Color(50, 70, 50));
-        SekunderTanggalTriase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "08-06-2022 22:54:22" }));
+        SekunderTanggalTriase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-05-2025 13:08:35" }));
         SekunderTanggalTriase.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         SekunderTanggalTriase.setName("SekunderTanggalTriase"); // NOI18N
         SekunderTanggalTriase.setOpaque(false);
@@ -1626,7 +1627,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         jLabel18.setBounds(0, 40, 89, 23);
 
         TanggalKunjungan.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalKunjungan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "08-06-2022 22:54:22" }));
+        TanggalKunjungan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-05-2025 13:08:37" }));
         TanggalKunjungan.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalKunjungan.setName("TanggalKunjungan"); // NOI18N
         TanggalKunjungan.setOpaque(false);
@@ -1785,7 +1786,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "08-06-2022" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-05-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1799,7 +1800,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "08-06-2022" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-05-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -1855,7 +1856,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         PanelAccor.setPreferredSize(new java.awt.Dimension(470, 43));
         PanelAccor.setLayout(new java.awt.BorderLayout(1, 1));
 
-        ChkAccor.setBackground(new java.awt.Color(255,250,250));
+        ChkAccor.setBackground(new java.awt.Color(255, 250, 250));
         ChkAccor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/kiri.png"))); // NOI18N
         ChkAccor.setSelected(true);
         ChkAccor.setFocusable(false);
@@ -3994,13 +3995,19 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                       
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 1..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 1","PDF Triase Skala 1"},"Lambar Triase Skala 1");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 1..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 1","PDF Triase Skala 1","Upload Triase Ke Berkas Digital Skala 1"},"Lambar Triase Skala 1");
                         switch (pilihan) {
                             case "Lembar Triase Skala 1":
                                   Valid.MyReportqry("rptLembarTriaseSkala1.jasper","report","::[ Triase Skala 1 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
                             case "PDF Triase Skala 1":
                                   Valid.MyReportqrypdf("rptLembarTriaseSkala1.jasper","report","::[ Triase Skala 1 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                                  break;
+                            case "Upload Triase Ke Berkas Digital Skala 1":
+                                  FileName = "TRIASE_"+ tbTriase.getValueAt(tbTriase.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbTriase.getValueAt(tbTriase.getSelectedRow(), 1).toString();
+        Valid.MyReportPDFUpload("rptLembarTriaseSkala1.jasper", "report", "::[ Laporan Resume Pasien ]::",FileName, param);
+        String filePath = "tmpPDF/" + FileName;
+        FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "TRIASE", tbTriase,0);
                                   break;
                         } 
                     } catch (Exception e) {
@@ -4115,13 +4122,19 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                       
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 2..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 2","PDF Triase Skala 2"},"Lambar Triase Skala 2");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 2..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 2","PDF Triase Skala 2","Upload Triase Ke Berkas Digital Skala 2"},"Lambar Triase Skala 2");
                         switch (pilihan) {
                             case "Lembar Triase Skala 2":
                                   Valid.MyReportqry("rptLembarTriaseSkala2.jasper","report","::[ Triase Skala 2 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
                             case "PDF Triase Skala 2":
                                   Valid.MyReportqrypdf("rptLembarTriaseSkala2.jasper","report","::[ Triase Skala 2 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                                  break;
+                            case "Upload Triase Ke Berkas Digital Skala 2":
+                                  FileName = "TRIASE_"+ tbTriase.getValueAt(tbTriase.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbTriase.getValueAt(tbTriase.getSelectedRow(), 1).toString();
+        Valid.MyReportPDFUpload("rptLembarTriaseSkala2.jasper", "report", "::[ Laporan Resume Pasien ]::",FileName, param);
+        String filePath = "tmpPDF/" + FileName;
+        FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "TRIASE", tbTriase,0);
                                   break;
                         }
                     } catch (Exception e) {
@@ -4235,13 +4248,19 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                        
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 3..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 3","PDF Triase Skala 3"},"Lembar Triase Skala 3");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 3..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 3","PDF Triase Skala 3","Upload Triase Ke Berkas Digital Skala 3"},"Lembar Triase Skala 3");
                         switch (pilihan) {
                             case "Lembar Triase Skala 3":
                                   Valid.MyReportqry("rptLembarTriaseSkala3.jasper","report","::[ Triase Skala 3 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
                             case "PDF Triase Skala 3":
                                   Valid.MyReportqrypdf("rptLembarTriaseSkala3.jasper","report","::[ Triase Skala 3 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                                  break;
+                            case "Upload Triase Ke Berkas Digital Skala 3":
+                                  FileName = "TRIASE_"+ tbTriase.getValueAt(tbTriase.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbTriase.getValueAt(tbTriase.getSelectedRow(), 1).toString();
+        Valid.MyReportPDFUpload("rptLembarTriaseSkala3.jasper", "report", "::[ Laporan Resume Pasien ]::",FileName, param);
+        String filePath = "tmpPDF/" + FileName;
+        FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "TRIASE", tbTriase,0);
                                   break;
                         }
                     } catch (Exception e) {
@@ -4355,13 +4374,19 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                       
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 4..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 4","PDF Triase Skala 4"},"Lembar Triase Skala 4");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 4..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 4","PDF Triase Skala 4","Upload Triase Ke Berkas Digital Skala 4"},"Lembar Triase Skala 4");
                         switch (pilihan) {
                             case "Lembar Triase Skala 4":
                                   Valid.MyReportqry("rptLembarTriaseSkala4.jasper","report","::[ Triase Skala 4 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
                             case "PDF Triase Skala 4":
                                   Valid.MyReportqrypdf("rptLembarTriaseSkala4.jasper","report","::[ Triase Skala 4 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                                  break;
+                            case "Upload Triase Ke Berkas Digital Skala 4":
+                                  FileName = "TRIASE_"+ tbTriase.getValueAt(tbTriase.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbTriase.getValueAt(tbTriase.getSelectedRow(), 1).toString();
+        Valid.MyReportPDFUpload("rptLembarTriaseSkala4.jasper", "report", "::[ Laporan Resume Pasien ]::",FileName, param);
+        String filePath = "tmpPDF/" + FileName;
+        FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "TRIASE", tbTriase,0);
                                   break;
                         }
                     } catch (Exception e) {
@@ -4475,13 +4500,19 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                         
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 5..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 5","PDF Triase Skala 5"},"Lembar Triase Skala 5");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 5..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 5","PDF Triase Skala 5","Upload Triase Ke Berkas Digital Skala 5"},"Lembar Triase Skala 5");
                         switch (pilihan) {
                             case "Lembar Triase Skala 5":
                                   Valid.MyReportqry("rptLembarTriaseSkala5.jasper","report","::[ Triase Skala 5 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
                             case "PDF Triase Skala 5":
                                   Valid.MyReportqry("rptLembarTriaseSkala5.jasper","report","::[ Triase Skala 5 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                                  break;
+                            case "Upload Triase Ke Berkas Digital Skala 5":
+                                  FileName = "TRIASE_"+ tbTriase.getValueAt(tbTriase.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbTriase.getValueAt(tbTriase.getSelectedRow(), 1).toString();
+        Valid.MyReportPDFUpload("rptLembarTriaseSkala5.jasper", "report", "::[ Laporan Resume Pasien ]::",FileName, param);
+        String filePath = "tmpPDF/" + FileName;
+        FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "TRIASE", tbTriase,0);
                                   break;
                         }
                     } catch (Exception e) {
@@ -4493,7 +4524,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_BtnPrint1ActionPerformed
-
+    
     /**
     * @param args the command line arguments
     */
