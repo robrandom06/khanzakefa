@@ -2,6 +2,7 @@ package simrskhanza;
 import bridging.ApiOrthanc;
 import bridging.OrthancDICOM;
 import com.fasterxml.jackson.databind.JsonNode;
+import fungsi.FileUploader;
 import kepegawaian.DlgCariPetugas;
 import keuangan.Jurnal;
 import fungsi.WarnaTable;
@@ -52,7 +53,7 @@ public class DlgCariPeriksaRadiologi extends javax.swing.JDialog {
     private StringBuilder htmlContent;
     private PreparedStatement ps,ps2,ps3,ps4,ps5,psrekening;
     private ResultSet rs,rs2,rs3,rs5,rsrekening;
-    private String kamar,namakamar,pemeriksaan="",pilihan="",status="",finger="";
+    private String kamar,namakamar,pemeriksaan="",pilihan="",status="",finger="",FileName="";
     private double ttl=0,item=0;
     private double ttljmdokter=0,ttljmpetugas=0,ttlkso=0,ttlpendapatan=0,ttlbhp=0,ttljasasarana=0,ttljmperujuk=0,ttlmenejemen=0;;
     private String kdpetugas="",kdpenjab="",Suspen_Piutang_Radiologi_Ranap="",Radiologi_Ranap="",Beban_Jasa_Medik_Dokter_Radiologi_Ranap="",Utang_Jasa_Medik_Dokter_Radiologi_Ranap="",
@@ -1712,7 +1713,7 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
             finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",kdpetugas);
             param.put("finger2","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+tbDokter.getValueAt(tbDokter.getSelectedRow(),2).toString()+"\nID "+(finger.equals("")?kdpetugas:finger)+"\n"+Valid.SetTgl3(tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString()));  
 
-            pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih hasil pemeriksaan..!","Hasil Pemeriksaan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Model 1","Model 2", "Model 3","PDF Model 1","PDF Model 2","PDF Model 3"},"Model 1");
+            pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih hasil pemeriksaan..!","Hasil Pemeriksaan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Model 1","Model 2", "Model 3","PDF Model 1","PDF Model 2","PDF Model 3","Upload Radiologi Ke Berkas Digital"},"Model 1");
             switch (pilihan) {
                 case "Model 1":
                       Valid.MyReport("rptPeriksaRadiologi.jasper","report","::[ Pemeriksaan Radiologi ]::",param);
@@ -1732,6 +1733,12 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                 case "PDF Model 3":
                       Valid.MyReportPDF("rptPeriksaRadiologi3.jasper","report","::[ Pemeriksaan Radiologi ]::",param);
                       break;
+                case "Upload Radiologi Ke Berkas Digital":
+                                  FileName = "RADIOLOGI_"+ tbDokter.getValueAt(tbDokter.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" ;
+        Valid.MyReportPDFUpload("rptPeriksaRadiologi.jasper", "report", "::[ Laporan Radiologi Pasien ]::",FileName, param);
+        String filePath = "tmpPDF/" + FileName;
+        FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "RADIOLOGI", tbDokter,0);
+                                  break;
             }                        
             
             this.setCursor(Cursor.getDefaultCursor());

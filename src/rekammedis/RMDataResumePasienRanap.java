@@ -2781,10 +2781,10 @@ public final class RMDataResumePasienRanap extends javax.swing.JDialog {
     }//GEN-LAST:event_KeluarActionPerformed
 
     private void UploadResumeRanapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UploadResumeRanapActionPerformed
-FileName = "RESUMERI_"+ tbObat.getValueAt(tbObat.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbObat.getValueAt(tbObat.getSelectedRow(), 1).toString();
+FileName = "RESUME_"+ tbObat.getValueAt(tbObat.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbObat.getValueAt(tbObat.getSelectedRow(), 1).toString();
         CreatePDF(FileName);
         String filePath = "tmpPDF/" + FileName;
-        FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "RESUMERI", tbObat,0);
+        FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "RESUME", tbObat,0);
 
 //        UploadPDF(FileName, "berkasrawat/pages/upload/");
 //        HapusPDF();            // TODO add your handling code here:
