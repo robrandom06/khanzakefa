@@ -1030,7 +1030,7 @@ public final class PRawatInap extends javax.swing.JDialog {
 
     private void UploadBerkasDigitalPRawatInapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UploadBerkasDigitalPRawatInapActionPerformed
         // TODO add your handling code here:
-        FileName = "PENGANTAR RANAP_"+ tbObat.getValueAt(tbObat.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbObat.getValueAt(tbObat.getSelectedRow(), 2).toString();
+        FileName = "PENGANTAR_RANAP_"+ tbObat.getValueAt(tbObat.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbObat.getValueAt(tbObat.getSelectedRow(), 2).toString();
         CreatePDF(FileName);
         String filePath = "tmpPDF/" + FileName;
         FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "PENGANTAR RANAP", tbObat,1);
@@ -1282,9 +1282,9 @@ public final class PRawatInap extends javax.swing.JDialog {
     }
         
     public void isCek(){
-        BtnSimpan.setEnabled(akses.gettransfer_pasien_antar_ruang());
-        BtnHapus.setEnabled(akses.gettransfer_pasien_antar_ruang());
-        BtnEdit.setEnabled(akses.gettransfer_pasien_antar_ruang());
+//        BtnSimpan.setEnabled(akses.gettransfer_pasien_antar_ruang());
+//        BtnHapus.setEnabled(akses.gettransfer_pasien_antar_ruang());
+//        BtnEdit.setEnabled(akses.gettransfer_pasien_antar_ruang());
     }
     
     public void setTampil(){

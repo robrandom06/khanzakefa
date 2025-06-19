@@ -640,6 +640,63 @@ public final class validasi {
             System.out.println(e);
         }
     }
+    public void MyReportqryToPDF(String reportName, String reportDirName, String judul, String qry, String fileName, Map parameters) {
+    Properties systemProp = System.getProperties();
+    String currentDir = systemProp.getProperty("user.dir");
+
+    File dir = new File(currentDir);
+    File fileRpt;
+    String fullPath = "";
+
+    if (dir.isDirectory()) {
+        String[] isiDir = dir.list();
+        for (String iDir : isiDir) {
+            fileRpt = new File(currentDir + File.separatorChar + iDir + File.separatorChar + reportDirName + File.separatorChar + reportName);
+            if (fileRpt.isFile()) {
+                fullPath = fileRpt.toString();
+                System.out.println("Found Report File at : " + fullPath);
+            }
+        }
+    }
+
+    try {
+        ps = connect.prepareStatement(qry);
+        rs = ps.executeQuery();
+
+        // Cek dan buat folder tmpPDF jika belum ada
+        File tmpPDFDir = new File(currentDir + File.separatorChar + "tmpPDF");
+        if (!tmpPDFDir.exists()) {
+            tmpPDFDir.mkdir();
+        }
+
+        // Nama dan path file PDF yang akan dibuat
+        String outputPdfPath = tmpPDFDir + File.separator + fileName + ".pdf";
+        String inputJasperPath = "./" + reportDirName + "/" + reportName;
+
+        // Sumber data laporan dari query
+        JRResultSetDataSource rsdt = new JRResultSetDataSource(rs);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(inputJasperPath, parameters, rsdt);
+
+        // Export ke PDF
+        JasperExportManager.exportReportToPdfFile(jasperPrint, outputPdfPath);
+        System.out.println("PDF generated at: " + outputPdfPath);
+
+        // Optional: membuka file PDF secara otomatis
+        // Desktop.getDesktop().open(new File(outputPdfPath));
+
+    } catch (Exception e) {
+        System.out.println("Error generating PDF: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error generating PDF: " + e.getMessage());
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+        } catch (Exception ex) {
+            System.out.println("Error closing resources: " + ex.getMessage());
+        }
+    }
+}
+
 
     @SuppressWarnings("empty-statement")
     public void MyReport(String reportName, String reportDirName, String judul, Map parameters) {
@@ -772,7 +829,64 @@ public final class validasi {
             System.out.println(e);
         }
     }
+    public void MyReportPDFUpload1(String reportName, String reportDirName, String judul,String sql, String FileName, Map parameters) {
+        Properties systemProp = System.getProperties();
 
+        // Ambil current dir
+        String currentDir = systemProp.getProperty("user.dir");
+
+        File dir = new File(currentDir);
+
+        File fileRpt;
+        String fullPath = "";
+        if (dir.isDirectory()) {
+            String[] isiDir = dir.list();
+            for (String iDir : isiDir) {
+                fileRpt = new File(currentDir + File.separatorChar + iDir + File.separatorChar + reportDirName + File.separatorChar + reportName);
+                if (fileRpt.isFile()) { // Cek apakah file RptMaster.jasper ada
+                    fullPath = fileRpt.toString();
+                    System.out.println("Found Report File at : " + fullPath);
+                }
+            }
+        }
+
+        try {
+            ps = connect.prepareStatement(sql);
+                try {
+                    // Pastikan folder tmpPDF ada
+                    File tmpPDFDir = new File(currentDir + File.separatorChar + "tmpPDF");
+                    if (!tmpPDFDir.exists()) {
+                        tmpPDFDir.mkdir(); // Buat folder tmpPDF jika belum ada
+                    }
+
+                    // Nama file PDF dihasilkan di folder tmpPDF
+                    String outputPdfPath = tmpPDFDir + File.separator + FileName + ".pdf";
+                    String inputJasperPath = "./" + reportDirName + "/" + reportName;
+                    
+                    
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(inputJasperPath, parameters, connect);
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, outputPdfPath);
+
+                    // Buka file PDF yang dihasilkan
+                    File f = new File(outputPdfPath);
+                    rs = ps.executeQuery();
+                    //    Desktop.getDesktop().open(f);
+                } catch (Exception rptexcpt) {
+                    System.out.println("Report Can't view because : " + rptexcpt);
+                    JOptionPane.showMessageDialog(null, "Report Can't view because : " + rptexcpt);
+                }finally {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
     public void MyReportqry(String reportName, String reportDirName, String judul, String qry, Map parameters) {
         Properties systemProp = System.getProperties();
 
