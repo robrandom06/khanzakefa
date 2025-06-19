@@ -9394,12 +9394,46 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
             JOptionPane.showMessageDialog(null, "Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
             TCari.requestFocus();
         } else {
+//            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//            RMDataResumePasienRanap resume = new RMDataResumePasienRanap(null, false);
+//            resume.isCek();
+//            resume.setSize(internalFrame1.getWidth() - 20, internalFrame1.getHeight() - 20);
+//            resume.setLocationRelativeTo(internalFrame1);
+//            resume.setNoRm(TNoRw.getText(), DTPCari2.getDate());
+//            resume.tampil();
+//            resume.setVisible(true);
+//            this.setCursor(Cursor.getDefaultCursor());
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+            String noRawat = TNoRw.getText();
+            boolean adaDiGabung = false;
+
+            try {
+                PreparedStatement ps = koneksi.prepareStatement(
+                        "SELECT 1 FROM ranap_gabung WHERE no_rawat2 = ?"
+                );
+                ps.setString(1, noRawat);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    adaDiGabung = true;
+                }
+                rs.close();
+                ps.close();
+            } catch (Exception e) {
+                System.out.println("Error checking ranap_gabung: " + e.getMessage());
+            }
+
             RMDataResumePasienRanap resume = new RMDataResumePasienRanap(null, false);
             resume.isCek();
             resume.setSize(internalFrame1.getWidth() - 20, internalFrame1.getHeight() - 20);
             resume.setLocationRelativeTo(internalFrame1);
-            resume.setNoRm(TNoRw.getText(), DTPCari2.getDate());
+
+            if (adaDiGabung) {
+                resume.setNoRm2(noRawat, DTPCari2.getDate());
+            } else {
+                resume.setNoRm(noRawat, DTPCari2.getDate());
+            }
+
             resume.tampil();
             resume.setVisible(true);
             this.setCursor(Cursor.getDefaultCursor());

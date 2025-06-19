@@ -97,8 +97,9 @@ public class DlgTTDSEP extends javax.swing.JDialog {
         FormInput = new widget.PanelBiasa();
         jLabel3 = new widget.Label();
         TNoRM = new widget.TextBox();
-        TNoRW = new widget.TextBox();
+        TNoSEP = new widget.TextBox();
         TPasien = new widget.TextBox();
+        TNoRW = new widget.TextBox();
         panelGlass8 = new widget.panelisi();
         BtnSimpan = new widget.Button();
         BtnHapus = new widget.Button();
@@ -118,7 +119,7 @@ public class DlgTTDSEP extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), ".:[ Tanda Tangan Pasien Program Fisioterapi ]:.", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(70, 70, 70))); // NOI18N
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), ".:[ Tanda Tangan SEP Pasien ]:.", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(70, 70, 70))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setPreferredSize(new java.awt.Dimension(300, 300));
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
@@ -138,17 +139,23 @@ public class DlgTTDSEP extends javax.swing.JDialog {
         FormInput.add(TNoRM);
         TNoRM.setBounds(230, 10, 90, 23);
 
-        TNoRW.setEditable(false);
-        TNoRW.setHighlighter(null);
-        TNoRW.setName("TNoRW"); // NOI18N
-        FormInput.add(TNoRW);
-        TNoRW.setBounds(60, 10, 160, 23);
+        TNoSEP.setEditable(false);
+        TNoSEP.setHighlighter(null);
+        TNoSEP.setName("TNoSEP"); // NOI18N
+        FormInput.add(TNoSEP);
+        TNoSEP.setBounds(60, 40, 230, 23);
 
         TPasien.setEditable(false);
         TPasien.setHighlighter(null);
         TPasien.setName("TPasien"); // NOI18N
         FormInput.add(TPasien);
         TPasien.setBounds(330, 10, 270, 23);
+
+        TNoRW.setEditable(false);
+        TNoRW.setHighlighter(null);
+        TNoRW.setName("TNoRW"); // NOI18N
+        FormInput.add(TNoRW);
+        TNoRW.setBounds(60, 10, 160, 23);
 
         internalFrame1.add(FormInput, java.awt.BorderLayout.PAGE_START);
         FormInput.getAccessibleContext().setAccessibleName("");
@@ -233,7 +240,6 @@ public class DlgTTDSEP extends javax.swing.JDialog {
         internalFrame1.add(panelGlass8, java.awt.BorderLayout.PAGE_END);
 
         panelGlass9.setBackground(new java.awt.Color(255, 255, 255));
-        panelGlass9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         panelGlass9.setName("panelGlass9"); // NOI18N
         panelGlass9.setPreferredSize(new java.awt.Dimension(300, 300));
         panelGlass9.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -261,6 +267,7 @@ public class DlgTTDSEP extends javax.swing.JDialog {
         internalFrame1.add(panelGlass9, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(internalFrame1, java.awt.BorderLayout.CENTER);
+        internalFrame1.getAccessibleContext().setAccessibleName(".:[ Tanda Tangan SEP Pasien ]:.");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -268,50 +275,59 @@ public class DlgTTDSEP extends javax.swing.JDialog {
 
     private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
         try {
-        // Buat objek Robot
-        Robot r = new Robot();
+        // Buat BufferedImage sebesar panelGlass9
+        BufferedImage image = new BufferedImage(
+                panelGlass9.getWidth(),
+                panelGlass9.getHeight(),
+                BufferedImage.TYPE_INT_ARGB
+        );
 
-        // Ambil posisi dan ukuran panelGlass9
-        Point location = panelGlass9.getLocationOnScreen(); // Posisi absolut panel
-        Insets insets = panelGlass9.getInsets(); // Mendapatkan padding atau border (jika ada)
-
-        // Hitung area tangkapan tanpa border
-        int x = location.x + insets.left;
-        int y = location.y + insets.top;
-        int width = panelGlass9.getWidth() - insets.left - insets.right;
-        int height = panelGlass9.getHeight() - insets.top - insets.bottom;
-
-        // Definisikan area tangkapan
-        Rectangle capture = new Rectangle(x, y, width, height);
-
-        // Tangkap gambar dari area panelGlass9
-        BufferedImage Image = r.createScreenCapture(capture);
+        // Gambar ulang panel ke image
+        Graphics2D g2d = image.createGraphics();
+        panelGlass9.paint(g2d); // repaint panel ke image, bukan ke layar
+        g2d.dispose();
 
         // Simpan gambar ke file
-    //    String filePath = "tmpImageFreehand/ttdrehabpertama" + TNoRW.getText().replaceAll("/", "") + ".png";
         String filePath = "tmpImageFreehand/" + TFile.getText();
-        ImageIO.write(Image, "png", new File(filePath));
+        ImageIO.write(image, "png", new File(filePath));
 
         // Upload gambar
         uploadImage(TFile.getText(), TPath.getText());
-        
-        //Menyimpan ke database
-        if(Sequel.cariInteger("select count(no_rawat) as jumlah from data_sep_image_marking where no_rawat='"+TNoRW.getText()+"'")>0){
-            if(Sequel.mengedittf("data_sep_image_marking","no_rawat=?","no_sep=?,tanggal=?,jam=?,url_image=?",5,new String[]{
-                   tanggalNow.format(new Date()),jamNow.format(new Date()),"sep/ttdpasien/RP"+TNoRW.getText().replaceAll("/", "")+".png",TNoRW.getText()
-                     })==true){
-                
-            }
-        }else{
-         if(Sequel.menyimpantf("rehab_program_image_marking","?,?,?,?,?","No.Rawat",5,new String[]{
-                    TNoRW.getText(),tanggalNow.format(new Date()),jamNow.format(new Date()),"sep/ttdpasien/RP"+TNoRW.getText().replaceAll("/", "")+".png"
-                })==true){
-            }
+
+        // Simpan ke database
+        String urlImage = "imagefreehand/sep/TTD" + TNoSEP.getText().replaceAll("/", "") + ".png";
+        if (Sequel.cariInteger("SELECT COUNT(no_rawat) FROM data_sep_image_marking WHERE no_rawat='" + TNoRW.getText() + "'") > 0) {
+            Sequel.mengedittf(
+                "data_sep_image_marking",
+                "no_rawat=?",
+                "no_sep=?,tanggal=?,jam=?,url_image=?",
+                5,
+                new String[]{
+                    TNoSEP.getText(),
+                    tanggalNow.format(new Date()),
+                    jamNow.format(new Date()),
+                    urlImage,
+                    TNoRW.getText()
+                }
+            );
+        } else {
+            Sequel.menyimpantf(
+                "data_sep_image_marking",
+                "?,?,?,?,?",
+                "No.Rawat", 5,
+                new String[]{
+                    TNoRW.getText(),
+                    TNoSEP.getText(),
+                    tanggalNow.format(new Date()),
+                    jamNow.format(new Date()),
+                    urlImage
+                }
+            );
         }
+
         JOptionPane.showMessageDialog(null, "Tanda tangan berhasil disimpan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-        // Tutup dialog
-        dispose();
-    } catch (AWTException | IOException ex) {
+        dispose(); // Tutup dialog
+    } catch (IOException ex) {
         Logger.getLogger(DlgTTDSEP.class.getName()).log(Level.SEVERE, null, ex);
         JOptionPane.showMessageDialog(this, "Gagal menyimpan gambar tanda tangan: " + ex.getMessage(),
                 "Kesalahan", JOptionPane.ERROR_MESSAGE);
@@ -392,6 +408,7 @@ public class DlgTTDSEP extends javax.swing.JDialog {
     private widget.TextBox TFile;
     private widget.TextBox TNoRM;
     private widget.TextBox TNoRW;
+    private widget.TextBox TNoSEP;
     private widget.TextBox TPasien;
     private widget.TextBox TPath;
     private widget.InternalFrame internalFrame1;
@@ -405,8 +422,9 @@ public class DlgTTDSEP extends javax.swing.JDialog {
 //    private void isPsien() {
 ////        Sequel.cariIsi("select nm_pasien from pasien where no_rkm_medis=? ",TPasien,TNoRM.getText());
 //    }
-    public void setNoRm(String norawat, String noRm, String namaPasien,String Path, String NamaFile) {
+    public void setNoRm(String norawat, String noRm, String namaPasien,String noSEP,String Path, String NamaFile) {
         TNoRW.setText(norawat);
+        TNoSEP.setText(noSEP);
         TNoRM.setText(noRm);
         TPasien.setText(namaPasien);
         TFile.setText(NamaFile);

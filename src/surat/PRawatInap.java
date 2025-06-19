@@ -1342,7 +1342,7 @@ public final class PRawatInap extends javax.swing.JDialog {
             return;
         }
         if(Sequel.menyimpantf("pengantar_rawat_inap","?,?,?,?,?,?,?,?", "No.Rawat",8,new String[]{
-            Valid.autoNomer("pengantar_rawat_inap","PR",6), // contoh auto ID kalau perlu
+            Valid.autoNomer3("SELECT MAX(RIGHT(id, 6)) FROM pengantar_rawat_inap", "PR", 6), // contoh auto ID kalau perlu
             TNoRM.getText(), // no_rkm_medis
             TNoRw.getText(), // no_rawat        
             KdDokter.getText(), // kd_dpjp
