@@ -44,8 +44,12 @@ import inventory.DlgPermintaanResepPulang;
 import inventory.DlgPermintaanStokPasien;
 import inventory.DlgResepPulang;
 import inventory.DlgReturJual;
+import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -54,15 +58,23 @@ import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -149,7 +161,6 @@ import rekammedis.RMSkriningNutrisiLansia;
 import rekammedis.RMTimeOutSebelumInsisi;
 import rekammedis.RMTransferPasienAntarRuang;
 import rekammedis.RMUjiFungsiKFR;
-import rekammedis.DlgInputSHK;
 import rekammedis.RMPartograf;
 import surat.SuratKeteranganRawatInap;
 import surat.SuratPenolakanAnjuranMedis;
@@ -1040,6 +1051,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnPerencanaanPemulangan = new javax.swing.JMenuItem();
         ppResume = new javax.swing.JMenuItem();
         ppRiwayat = new javax.swing.JMenuItem();
+        ppCekBerkasDigital = new javax.swing.JMenuItem();
         MnPermintaan = new javax.swing.JMenu();
         MnJadwalOperasi = new javax.swing.JMenuItem();
         MnPermintaanLab = new javax.swing.JMenuItem();
@@ -2943,6 +2955,20 @@ public class DlgKamarInap extends javax.swing.JDialog {
             }
         });
         MnDataRM.add(ppRiwayat);
+
+        ppCekBerkasDigital.setBackground(new java.awt.Color(255, 255, 254));
+        ppCekBerkasDigital.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppCekBerkasDigital.setForeground(new java.awt.Color(50, 50, 50));
+        ppCekBerkasDigital.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppCekBerkasDigital.setText("Cek Berkas Digital");
+        ppCekBerkasDigital.setToolTipText("");
+        ppCekBerkasDigital.setName("ppCekBerkasDigital"); // NOI18N
+        ppCekBerkasDigital.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppCekBerkasDigitalActionPerformed(evt);
+            }
+        });
+        MnDataRM.add(ppCekBerkasDigital);
 
         jPopupMenu1.add(MnDataRM);
 
@@ -16275,6 +16301,84 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         }    // TODO add your handling code here:
     }//GEN-LAST:event_MnPartografActionPerformed
 
+    private void ppCekBerkasDigitalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppCekBerkasDigitalActionPerformed
+    if (tabMode.getRowCount() == 0) {
+        JOptionPane.showMessageDialog(null, "Maaf, data pasien sudah habis...!!!!");
+        TCari.requestFocus();
+    } else if (tbKamIn.getSelectedRow() == -1) {
+        JOptionPane.showMessageDialog(null, "Maaf, Silahkan pilih dulu data kamar inap...!!!");
+        TCari.requestFocus();
+    } else {
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        // Indeks no_rawat dan nama pasien
+        String noRawat = tbKamIn.getValueAt(tbKamIn.getSelectedRow(), 0).toString(); // sebelumnya index 1, dikoreksi ke 0
+        String namaPasien = tbKamIn.getValueAt(tbKamIn.getSelectedRow(), 2).toString();
+
+        JDialog dialog = new JDialog((Frame) null, "Cek Berkas Digital", true);
+        dialog.setSize(500, 400);
+        dialog.setLayout(new BorderLayout());
+        dialog.setLocationRelativeTo(internalFrame1);
+
+        // Panel atas: info pasien
+        JPanel panelInfo = new JPanel(new GridLayout(2, 2, 5, 5));
+        panelInfo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panelInfo.add(new JLabel("No. Rawat:"));
+        JTextField txtNoRawat = new JTextField(noRawat);
+        txtNoRawat.setEditable(false);
+        panelInfo.add(txtNoRawat);
+        panelInfo.add(new JLabel("Nama Pasien:"));
+        JTextField txtNamaPasien = new JTextField(namaPasien);
+        txtNamaPasien.setEditable(false);
+        panelInfo.add(txtNamaPasien);
+
+        // Panel tengah: daftar berkas
+        JTextArea areaBerkas = new JTextArea();
+        areaBerkas.setEditable(false);
+        JScrollPane scrollBerkas = new JScrollPane(areaBerkas);
+        scrollBerkas.setBorder(BorderFactory.createTitledBorder("Daftar Berkas"));
+
+        // Ambil data dari database
+        try (PreparedStatement ps = koneksi.prepareStatement(
+                "SELECT master_berkas_digital.nama FROM berkas_digital_perawatan " +
+                "INNER JOIN master_berkas_digital ON berkas_digital_perawatan.kode = master_berkas_digital.kode " +
+                "WHERE berkas_digital_perawatan.no_rawat = ?")) {
+            ps.setString(1, noRawat);
+            ResultSet rs = ps.executeQuery();
+            int i = 1;
+            while (rs.next()) {
+                areaBerkas.append(i++ + ". " + rs.getString("nama") + "\n");
+            }
+            if (i == 1) {
+                areaBerkas.setText("Tidak ada berkas ditemukan.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Kesalahan DB: " + e.getMessage());
+        }
+
+        // Panel bawah: catatan + tombol tutup
+        JPanel panelBawah = new JPanel(new BorderLayout());
+        JLabel catatan = new JLabel("Catatan: Mohon dilengkapi jika ada berkas yang belum ada dalam daftar diatas");
+        catatan.setFont(new Font("Arial", Font.ITALIC, 11));
+        catatan.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+        JButton btnClose = new JButton("Tutup");
+        btnClose.addActionListener(e -> dialog.dispose());
+        JPanel panelBtn = new JPanel();
+        panelBtn.add(btnClose);
+
+        panelBawah.add(catatan, BorderLayout.CENTER);
+        panelBawah.add(panelBtn, BorderLayout.SOUTH);
+
+        dialog.add(panelInfo, BorderLayout.NORTH);
+        dialog.add(scrollBerkas, BorderLayout.CENTER);
+        dialog.add(panelBawah, BorderLayout.SOUTH);
+
+        dialog.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }    // TODO add your handling code here:
+    }//GEN-LAST:event_ppCekBerkasDigitalActionPerformed
+
     private void MnPenilaianPreInduksiActionPerformed(java.awt.event.ActionEvent evt) {
         if (tabMode.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Maaf, table masih kosong...!!!!");
@@ -17072,6 +17176,7 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JMenuItem ppBerkasDigital;
     private javax.swing.JMenuItem ppCatatanADIMEGizi;
     private javax.swing.JMenuItem ppCatatanPasien;
+    private javax.swing.JMenuItem ppCekBerkasDigital;
     private javax.swing.JMenuItem ppDataHAIs;
     private javax.swing.JMenuItem ppDataIndukKecelakaan;
     private javax.swing.JMenuItem ppIKP;
