@@ -221,7 +221,7 @@ public final class akses {
             penilaian_pre_induksi=false,hasil_usg_urologi=false,hasil_usg_gynecologi=false,hasil_pemeriksaan_ekg=false,hapus_edit_sep_bpjs=false,satu_sehat_kirim_diet=false,
             satu_sehat_mapping_obat=false,dapur_ringkasan_pembelian=false,satu_sehat_kirim_medication=false,satu_sehat_kirim_medicationrequest=false,
             penatalaksanaan_terapi_okupasi=false,satu_sehat_kirim_medicationdispense=false,hasil_usg_neonatus=false,hasil_endoskopi_faring_laring=false,
-            satu_sehat_mapping_radiologi=false,satu_sehat_kirim_servicerequest_radiologi=false;
+            satu_sehat_mapping_radiologi=false,satu_sehat_kirim_servicerequest_radiologi=false,pengantar_ranap,vk_nicu=false;
     
     public static void setData(String user, String pass) {
         try {        
@@ -1255,6 +1255,8 @@ public final class akses {
                         akses.hasil_endoskopi_faring_laring=true;
                         akses.satu_sehat_mapping_radiologi=true;
                         akses.satu_sehat_kirim_servicerequest_radiologi=true;
+                        akses.pengantar_ranap=true;
+                        akses.vk_nicu=true;
                     }else if(rs2.getRow()>=1){   
                         rs2.beforeFirst();
                         rs2.next();
@@ -1967,6 +1969,8 @@ public final class akses {
                         akses.penggunaan_bhp_ok=rs2.getBoolean("penggunaan_bhp_ok");
                         akses.surat_keterangan_rawat_inap=rs2.getBoolean("surat_keterangan_rawat_inap");
                         akses.surat_keterangan_sehat=rs2.getBoolean("surat_keterangan_sehat");
+                        akses.pengantar_ranap=rs2.getBoolean("pengantar_rawat_inap");
+                        akses.vk_nicu=rs2.getBoolean("vk_nicu");
                         akses.pendapatan_per_carabayar=rs2.getBoolean("pendapatan_per_carabayar");
                         akses.akun_host_to_host_bank_jateng=rs2.getBoolean("akun_host_to_host_bank_jateng");
                         akses.pembayaran_bank_jateng=rs2.getBoolean("pembayaran_bank_jateng");
@@ -2982,6 +2986,8 @@ public final class akses {
                         akses.penggunaan_bhp_ok=false;
                         akses.surat_keterangan_rawat_inap=false;
                         akses.surat_keterangan_sehat=false;
+                        akses.pengantar_ranap=false;
+                        akses.vk_nicu=false;
                         akses.pendapatan_per_carabayar=false;
                         akses.akun_host_to_host_bank_jateng=false;
                         akses.pembayaran_bank_jateng=false;
@@ -3963,6 +3969,8 @@ public final class akses {
         akses.zis_patologis_penerima_dankes=false;
         akses.pcare_cek_kartu=false;
         akses.surat_bebas_narkoba=false;
+        akses.pengantar_ranap=true;
+        akses.vk_nicu=true;
         akses.surat_keterangan_covid=false;
         akses.pemakaian_air_tanah=false;
         akses.grafik_air_tanah_pertanggal=false;
@@ -4340,6 +4348,8 @@ public final class akses {
     public static boolean getpetugas(){return akses.petugas;} 
     public static boolean getpasien(){return akses.pasien;} 
     public static boolean getregistrasi(){return akses.registrasi;} 
+    public static boolean getpengantar_ranap(){return akses.pengantar_ranap;} 
+    public static boolean get_vk_nicu(){return akses.vk_nicu;}
     public static boolean gettindakan_ralan(){return akses.tindakan_ralan;} 
     public static boolean getkamar_inap(){return akses.kamar_inap;} 
     public static boolean gettindakan_ranap(){return akses.tindakan_ranap;} 
