@@ -21,6 +21,7 @@ import fungsi.sekuel;
 import fungsi.validasi;
 import fungsi.akses;
 import bridging.koneksiDBFUJI;
+import fungsi.FileUploader;
 import ipsrs.IPSRSBarang;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -77,7 +78,7 @@ public final class DlgPeriksaRadiologi extends javax.swing.JDialog {
             Beban_Jasa_Medik_Petugas_Radiologi_Ralan="",Utang_Jasa_Medik_Petugas_Radiologi_Ralan="",Beban_Kso_Radiologi_Ralan="",Utang_Kso_Radiologi_Ralan="",
             HPP_Persediaan_Radiologi_Rawat_Jalan="",Persediaan_BHP_Radiologi_Rawat_Jalan="",Beban_Jasa_Sarana_Radiologi_Ralan="",Utang_Jasa_Sarana_Radiologi_Ralan="",
             Beban_Jasa_Perujuk_Radiologi_Ralan="",Utang_Jasa_Perujuk_Radiologi_Ralan="",Beban_Jasa_Menejemen_Radiologi_Ralan="",Utang_Jasa_Menejemen_Radiologi_Ralan="",
-            norawatibu="",proyeksi="",kV="",mAS="",FFD="",BSF="",inak="",jml_penyinaran="",dosis="",finger="";
+            norawatibu="",proyeksi="",kV="",mAS="",FFD="",BSF="",inak="",jml_penyinaran="",dosis="",finger="",FileName="";
 
     /** Creates new form DlgPerawatan
      * @param parent
@@ -1551,7 +1552,7 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
             finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",KdPtg.getText());
             param.put("finger2","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+NmPtg.getText()+"\nID "+(finger.equals("")?KdPtg.getText():finger)+"\n"+Tanggal.getSelectedItem());  
             
-            pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih hasil pemeriksaan..!","Hasil Pemeriksaan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Model 1","Model 2", "Model 3"},"Model 1");
+            pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih hasil pemeriksaan..!","Hasil Pemeriksaan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Model 1","Model 2", "Model 3","Upload Radiologi Ke Berkas Digital"},"Model 1");
             switch (pilihan) {
                 case "Model 1":
                       Valid.MyReport("rptPeriksaRadiologi.jasper","report","::[ Pemeriksaan Radiologi ]::",param);
@@ -1562,6 +1563,12 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
                 case "Model 3":
                       Valid.MyReport("rptPeriksaRadiologi3.jasper","report","::[ Pemeriksaan Radiologi ]::",param);
                       break;
+                case "Upload Radiologi Ke Berkas Digital":
+                                  FileName = "RADIOLOGI_"+ TNoRM.getText() + "_" ;
+        Valid.MyReportPDFUpload("rptPeriksaRadiologi.jasper", "report", "::[ Laporan Radiologi Pasien ]::",FileName, param);
+        String filePath = "tmpPDF/" + FileName;
+        FileUploader.UploadPDF1(FileName, "berkasrawat/pages/upload/", "RADIOLOGI", TNoRw.getText(),TNoRM.getText());
+                                  break;
             }
             
             this.setCursor(Cursor.getDefaultCursor());
