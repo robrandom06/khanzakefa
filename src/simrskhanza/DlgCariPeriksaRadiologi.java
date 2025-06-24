@@ -1699,6 +1699,13 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
             param.put("kamar",kamar);
             param.put("namakamar",namakamar);
             param.put("pemeriksaan",pemeriksaan);
+            String indikasi = Sequel.cariIsi(
+            "SELECT hasil_radiologi.indikasi FROM hasil_radiologi WHERE no_rawat=? AND tgl_periksa=? AND jam=?",
+            tbDokter.getValueAt(tbDokter.getSelectedRow(), 0).toString(), // no_rawat
+            tbDokter.getValueAt(tbDokter.getSelectedRow(), 3).toString(), // tgl_periksa
+            tbDokter.getValueAt(tbDokter.getSelectedRow(), 4).toString()  // jam
+            );
+            param.put("indikasi",indikasi);
             param.put("jam",tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString());
             param.put("namars",akses.getnamars());
             param.put("alamatrs",akses.getalamatrs());

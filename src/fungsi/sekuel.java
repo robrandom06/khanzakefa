@@ -1231,7 +1231,36 @@ public final class sekuel {
             JOptionPane.showMessageDialog(null,"Gagal melakukan rollback..!");
         }
     }
-    
+    public String cariIsi(String sql, String... data) {
+    String dicari = "";
+    try {
+        ps = connect.prepareStatement(sql);
+        for (int i = 0; i < data.length; i++) {
+            ps.setString(i + 1, data[i]); // set parameter ke-1, ke-2, dst.
+        }
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            dicari = rs.getString(1);
+        } else {
+            dicari = "";
+        }
+    } catch (Exception e) {
+        dicari = "";
+        System.out.println("Notifikasi cariIsi: " + e);
+    } finally {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        } catch (Exception e) {
+            System.out.println("Notifikasi close: " + e);
+        }
+    }
+    return dicari;
+}
     public void cariIsi(String sql,JComboBox cmb){
         try {
             ps=connect.prepareStatement(sql);
