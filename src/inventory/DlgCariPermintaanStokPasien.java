@@ -4,6 +4,8 @@ import fungsi.koneksiDB;
 import fungsi.sekuel;
 import fungsi.validasi;
 import fungsi.akses;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -32,7 +34,7 @@ public class DlgCariPermintaanStokPasien extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        Object[] row={"No.Permintaan","Tanggal","Jam","No.Rawat","No.RM","Pasien","Dokter Yang Meminta","Kode Dokter"};
+        Object[] row={"No.Permintaan","Tanggal","Jam","No.Rawat","No.RM","Pasien","Dokter Yang Meminta","Kode Dokter","Status"};
         tabMode=new DefaultTableModel(null,row){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -42,7 +44,7 @@ public class DlgCariPermintaanStokPasien extends javax.swing.JDialog {
         tbPemisahan.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbPemisahan.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
             TableColumn column = tbPemisahan.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(95);
@@ -55,16 +57,18 @@ public class DlgCariPermintaanStokPasien extends javax.swing.JDialog {
             }else if(i==4){
                 column.setPreferredWidth(170);
             }else if(i==5){
-                column.setPreferredWidth(1030);
+                column.setPreferredWidth(850);
             }else if(i==6){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
             }else if(i==7){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
+            }else if(i==8){
+                column.setPreferredWidth(105);
             }
         }
-        tbPemisahan.setDefaultRenderer(Object.class, new WarnaTable());
+        tbPemisahan.setDefaultRenderer(Object.class, new WarnaStatusPermintaan());
     }
 
     /** This method is called from within the constructor to
@@ -310,14 +314,14 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             if(ChkTanggal.isSelected()==true){
                 ps=koneksi.prepareStatement("select permintaan_stok_obat_pasien.no_permintaan,permintaan_stok_obat_pasien.tgl_permintaan,permintaan_stok_obat_pasien.jam,"+
                     " permintaan_stok_obat_pasien.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,permintaan_stok_obat_pasien.kd_dokter,dokter.nm_dokter, "+
-                    " if(permintaan_stok_obat_pasien.jam=permintaan_stok_obat_pasien.jam,'Belum Terlayani','Sudah Terlayani') as status,permintaan_stok_obat_pasien.status as status_asal "+
+                    " if(permintaan_stok_obat_pasien.status='Belum','Belum Terlayani','Sudah Terlayani') as status,permintaan_stok_obat_pasien.status as status_asal "+
                     " from permintaan_stok_obat_pasien inner join reg_periksa inner join pasien inner join dokter on permintaan_stok_obat_pasien.no_rawat=reg_periksa.no_rawat  "+
                     " and reg_periksa.no_rkm_medis=pasien.no_rkm_medis and permintaan_stok_obat_pasien.kd_dokter=dokter.kd_dokter where "+
                     " permintaan_stok_obat_pasien.tgl_permintaan between ? and ? and pasien.no_rkm_medis=? and permintaan_stok_obat_pasien.kd_dokter=? order by permintaan_stok_obat_pasien.tgl_permintaan,permintaan_stok_obat_pasien.jam desc");
             }else{
                 ps=koneksi.prepareStatement("select permintaan_stok_obat_pasien.no_permintaan,permintaan_stok_obat_pasien.tgl_permintaan,permintaan_stok_obat_pasien.jam,"+
                     " permintaan_stok_obat_pasien.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,permintaan_stok_obat_pasien.kd_dokter,dokter.nm_dokter, "+
-                    " if(permintaan_stok_obat_pasien.jam=permintaan_stok_obat_pasien.jam,'Belum Terlayani','Sudah Terlayani') as status,permintaan_stok_obat_pasien.status as status_asal "+
+                    " if(permintaan_stok_obat_pasien.status='Belum','Belum Terlayani','Sudah Terlayani') as status,permintaan_stok_obat_pasien.status as status_asal "+
                     " from permintaan_stok_obat_pasien inner join reg_periksa inner join pasien inner join dokter on permintaan_stok_obat_pasien.no_rawat=reg_periksa.no_rawat  "+
                     " and reg_periksa.no_rkm_medis=pasien.no_rkm_medis and permintaan_stok_obat_pasien.kd_dokter=dokter.kd_dokter where "+
                     " pasien.no_rkm_medis=? and permintaan_stok_obat_pasien.kd_dokter=? order by permintaan_stok_obat_pasien.tgl_permintaan,permintaan_stok_obat_pasien.jam desc");
@@ -336,7 +340,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                 while(rs.next()){
                     tabMode.addRow(new String[]{
                         rs.getString("no_permintaan"),rs.getString("tgl_permintaan"),rs.getString("jam"),rs.getString("no_rawat"),
-                        rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),rs.getString("nm_dokter"),rs.getString("kd_dokter")
+                        rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),rs.getString("nm_dokter"),rs.getString("kd_dokter"),rs.getString("status")
                     });  
                     ps2=koneksi.prepareStatement("select databarang.kode_brng,databarang.nama_brng,detail_permintaan_stok_obat_pasien.jml,"+
                         "databarang.kode_sat,detail_permintaan_stok_obat_pasien.aturan_pakai,detail_permintaan_stok_obat_pasien.jam00,"+
@@ -417,4 +421,41 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         this.norm=norm;
         this.kddokter=kodedokter;
     }
+    // ... bagian bawah dari DlgCariPermintaanStokPasien.java
+private class WarnaStatusPermintaan extends WarnaTable {
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column){
+        
+        Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+        try {
+            String status = table.getValueAt(row, 8).toString(); // kolom ke-8 adalah kolom status
+            if ("Sudah Terlayani".equalsIgnoreCase(status)) {
+                component.setBackground(new Color(204, 255, 204)); // Hijau muda
+            } else {
+                if (row % 2 == 1){
+                    component.setBackground(new Color(255,244,244)); // Ganjil
+                } else {
+                    component.setBackground(new Color(255,255,255)); // Genap
+                }
+            }
+        } catch (Exception e) {
+            // Jika error ambil default ganjil-genap
+            if (row % 2 == 1){
+                component.setBackground(new Color(255,244,244));
+            } else {
+                component.setBackground(new Color(255,255,255));
+            }
+        }
+
+        // Jaga tampilan seleksi tetap terlihat
+        if (isSelected) {
+            component.setBackground(new Color(184, 207, 229));
+        }
+
+        return component;
+    }
+}
+
 }
