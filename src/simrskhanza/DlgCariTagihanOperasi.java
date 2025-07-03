@@ -3275,7 +3275,7 @@ private void MnHapusObatOperasiActionPerformed(java.awt.event.ActionEvent evt) {
 
     private void UploadBerkasDigitalBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UploadBerkasDigitalBtnPrintActionPerformed
         // TODO add your handling code here:
-        FileName = "OPERASI_"+ tbDokter.getValueAt(tbDokter.getSelectedRow(), 2).toString().replaceAll("/", "") + "_" ;
+        FileName = "OPERASI_"+ tbDokter.getValueAt(tbDokter.getSelectedRow(), 1).toString().replaceAll("/", "") + "_" ;
         CreatePDF(FileName);
 //Valid.MyReportPDFUpload("rptLaporanOperasi.jasper", "report", "::[ Laporan Operasi Pasien ]::",FileName, param);
         String filePath = "tmpPDF/" + FileName;

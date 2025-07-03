@@ -11,6 +11,7 @@
  */
 package simrskhanza;
 
+import fungsi.FileUploader;
 import freehand.DlgTTDPasienUrl;
 import surat.SuratKontrol;
 import kepegawaian.DlgCariDokter;
@@ -180,7 +181,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
             Suspen_Piutang_Tindakan_Ralan = "", Tindakan_Ralan = "", Beban_Jasa_Medik_Dokter_Tindakan_Ralan = "", Utang_Jasa_Medik_Dokter_Tindakan_Ralan = "",
             Beban_Jasa_Medik_Paramedis_Tindakan_Ralan = "", Utang_Jasa_Medik_Paramedis_Tindakan_Ralan = "", Beban_KSO_Tindakan_Ralan = "", Utang_KSO_Tindakan_Ralan = "",
             Beban_Jasa_Sarana_Tindakan_Ralan = "", Utang_Jasa_Sarana_Tindakan_Ralan = "", HPP_BHP_Tindakan_Ralan = "", Persediaan_BHP_Tindakan_Ralan = "",
-            Beban_Jasa_Menejemen_Tindakan_Ralan = "", Utang_Jasa_Menejemen_Tindakan_Ralan = "", finger = "";
+            Beban_Jasa_Menejemen_Tindakan_Ralan = "", Utang_Jasa_Menejemen_Tindakan_Ralan = "", finger = "",pilihan1="",FileName="";
     private final Properties prop = new Properties();
     private boolean[] pilih;
     private String[] kode, nama, kategori;
@@ -6822,7 +6823,10 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                     String pas = " and reg_periksa.no_rkm_medis like '%" + TCariPasien.getText() + "%' ";
 
                     String tgl = " pemeriksaan_ralan.tgl_perawatan between '" + Valid.SetTgl(DTPCari1.getSelectedItem() + "") + "' and '" + Valid.SetTgl(DTPCari2.getSelectedItem() + "") + "' " + pas;
-                    Valid.MyReportqry("rptJalanPemeriksaan.jasper", "report", "::[ Data Pemeriksaan Rawat Jalan ]::",
+                    pilihan1 = (String)JOptionPane.showInputDialog(null,"Silahkan pilih hasil pemeriksaan..!","Hasil Pemeriksaan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Laporan CPPT/SOAP","Upload CPPT/SOAP Ke Berkas Digital"},"Laporan CPPT/SOAP");
+                    switch (pilihan1) {
+                        case "Laporan CPPT/SOAP":
+                            Valid.MyReportqry("rptJalanPemeriksaan.jasper", "report", "::[ Data Pemeriksaan Rawat Jalan ]::",
                             "select pemeriksaan_ralan.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,"
                             + "pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.suhu_tubuh,pemeriksaan_ralan.tensi, "
                             + "pemeriksaan_ralan.nadi,pemeriksaan_ralan.respirasi,pemeriksaan_ralan.tinggi, "
@@ -6837,6 +6841,35 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                             + "pemeriksaan_ralan.keluhan like '%" + TCari.getText().trim() + "%' or pemeriksaan_ralan.penilaian like '%" + TCari.getText().trim() + "%' or "
                             + "pemeriksaan_ralan.pemeriksaan like '%" + TCari.getText().trim() + "%' or pegawai.nama like '%" + TCari.getText().trim() + "%') "
                             + "order by pemeriksaan_ralan.no_rawat desc", param);
+                            break;
+                        case "Upload CPPT/SOAP Ke Berkas Digital":
+                            FileName = "SOAP_"+ TNoRM.getText() + "_" ;
+                            CreatePDF(FileName);
+                                  //Valid.MyReportPDFUpload("rptCetakPenilaianAwalKeperawatanRanap.jasper", "report", "::[ Laporan Penilaian Awal Keperawatan Rawat Inap ]::",FileName, param);
+                            String filePath = "tmpPDF/" + FileName;
+                            DefaultTableModel m = new DefaultTableModel();
+                            m.addColumn(TNoRM.getText());
+                            JTable tbData = new JTable(m);
+                            FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "CPPT SOAP", tbPemeriksaan,1);
+                            break;
+                        default:
+                            throw new AssertionError();
+                    }
+//                    Valid.MyReportqry("rptJalanPemeriksaan.jasper", "report", "::[ Data Pemeriksaan Rawat Jalan ]::",
+//                            "select pemeriksaan_ralan.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,"
+//                            + "pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.suhu_tubuh,pemeriksaan_ralan.tensi, "
+//                            + "pemeriksaan_ralan.nadi,pemeriksaan_ralan.respirasi,pemeriksaan_ralan.tinggi, "
+//                            + "pemeriksaan_ralan.berat,pemeriksaan_ralan.spo2,pemeriksaan_ralan.gcs,pemeriksaan_ralan.kesadaran,pemeriksaan_ralan.keluhan, "
+//                            + "pemeriksaan_ralan.pemeriksaan,pemeriksaan_ralan.alergi,pemeriksaan_ralan.lingkar_perut,"
+//                            + "pemeriksaan_ralan.rtl,pemeriksaan_ralan.penilaian,pemeriksaan_ralan.instruksi,pemeriksaan_ralan.evaluasi,pemeriksaan_ralan.nip,pegawai.nama "
+//                            + "from pasien inner join reg_periksa on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "
+//                            + "inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "
+//                            + "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik where  "
+//                            + tgl + "and (pemeriksaan_ralan.no_rawat like '%" + TCari.getText().trim() + "%' or reg_periksa.no_rkm_medis like '%" + TCari.getText().trim() + "%' or "
+//                            + "pasien.nm_pasien like '%" + TCari.getText().trim() + "%' or pemeriksaan_ralan.alergi like '%" + TCari.getText().trim() + "%' or "
+//                            + "pemeriksaan_ralan.keluhan like '%" + TCari.getText().trim() + "%' or pemeriksaan_ralan.penilaian like '%" + TCari.getText().trim() + "%' or "
+//                            + "pemeriksaan_ralan.pemeriksaan like '%" + TCari.getText().trim() + "%' or pegawai.nama like '%" + TCari.getText().trim() + "%') "
+//                            + "order by pemeriksaan_ralan.no_rawat desc", param);
                 }
                 break;
             case 4:
@@ -6952,7 +6985,39 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
 
         this.setCursor(Cursor.getDefaultCursor());
 }//GEN-LAST:event_BtnPrintActionPerformed
+    public void CreatePDF(String FileName){
+        if (tabModePemeriksaan.getRowCount() == 0) {
+                    JOptionPane.showMessageDialog(null, "Maaf, data sudah habis. Tidak ada data yang bisa anda print...!!!!");
+                    BtnBatal.requestFocus();
+                } else if (tabModePemeriksaan.getRowCount() != 0) {
+                    Map<String, Object> param = new HashMap<>();
+                    param.put("namars", akses.getnamars());
+                    param.put("alamatrs", akses.getalamatrs());
+                    param.put("kotars", akses.getkabupatenrs());
+                    param.put("propinsirs", akses.getpropinsirs());
+                    param.put("kontakrs", akses.getkontakrs());
+                    param.put("emailrs", akses.getemailrs());
+                    param.put("logo", Sequel.cariGambar("select setting.logo from setting"));
+                    String pas = " and reg_periksa.no_rkm_medis like '%" + TCariPasien.getText() + "%' ";
 
+                    String tgl = " pemeriksaan_ralan.tgl_perawatan between '" + Valid.SetTgl(DTPCari1.getSelectedItem() + "") + "' and '" + Valid.SetTgl(DTPCari2.getSelectedItem() + "") + "' " + pas;
+                    Valid.MyReportqryToPDF("rptJalanPemeriksaan.jasper", "report", "::[ Data Pemeriksaan Rawat Jalan ]::",
+                            "select pemeriksaan_ralan.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,"
+                            + "pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.suhu_tubuh,pemeriksaan_ralan.tensi, "
+                            + "pemeriksaan_ralan.nadi,pemeriksaan_ralan.respirasi,pemeriksaan_ralan.tinggi, "
+                            + "pemeriksaan_ralan.berat,pemeriksaan_ralan.spo2,pemeriksaan_ralan.gcs,pemeriksaan_ralan.kesadaran,pemeriksaan_ralan.keluhan, "
+                            + "pemeriksaan_ralan.pemeriksaan,pemeriksaan_ralan.alergi,pemeriksaan_ralan.lingkar_perut,"
+                            + "pemeriksaan_ralan.rtl,pemeriksaan_ralan.penilaian,pemeriksaan_ralan.instruksi,pemeriksaan_ralan.evaluasi,pemeriksaan_ralan.nip,pegawai.nama "
+                            + "from pasien inner join reg_periksa on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "
+                            + "inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "
+                            + "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik where  "
+                            + tgl + "and (pemeriksaan_ralan.no_rawat like '%" + TCari.getText().trim() + "%' or reg_periksa.no_rkm_medis like '%" + TCari.getText().trim() + "%' or "
+                            + "pasien.nm_pasien like '%" + TCari.getText().trim() + "%' or pemeriksaan_ralan.alergi like '%" + TCari.getText().trim() + "%' or "
+                            + "pemeriksaan_ralan.keluhan like '%" + TCari.getText().trim() + "%' or pemeriksaan_ralan.penilaian like '%" + TCari.getText().trim() + "%' or "
+                            + "pemeriksaan_ralan.pemeriksaan like '%" + TCari.getText().trim() + "%' or pegawai.nama like '%" + TCari.getText().trim() + "%') "
+                            + "order by pemeriksaan_ralan.no_rawat desc",FileName,param);
+                }
+    }
     private void BtnPrintKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnPrintKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
             BtnPrintActionPerformed(null);
@@ -10141,7 +10206,10 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         String pas = " and reg_periksa.no_rkm_medis like '%" + TCariPasien.getText() + "%' ";
 
         String tgl = " rehab_program.tanggal between '" + Valid.SetTgl(DTPCari1.getSelectedItem() + "") + "' and '" + Valid.SetTgl(DTPCari2.getSelectedItem() + "") + "' " + pas;
-        Valid.MyReportqry("rptCetakResumeProtokol.jasper", "report", "::[ Lembar Protokol Program ]::",
+        pilihan1 = (String)JOptionPane.showInputDialog(null,"Silahkan pilih hasil pemeriksaan..!","Hasil Pemeriksaan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Laporan Protokol Terapi","Upload Protokol Terapi Ke Berkas Digital"},"Laporan Protokol Terapi");
+        switch (pilihan1) {
+            case "Laporan Protokol Terapi":
+                Valid.MyReportqry("rptCetakResumeProtokol.jasper", "report", "::[ Lembar Protokol Program ]::",
                 "SELECT pasien.no_rkm_medis, pasien.nm_pasien, pasien.tgl_lahir, pasien.alamat, pasien.no_tlp, petugas.nama, "
                 + "DATE_FORMAT(rehab_program.tanggal, '%Y-%m-%d') AS tanggal, rehab_program.program,rehab_program_image_marking.url_image"
                 + " FROM reg_periksa INNER JOIN "
@@ -10156,8 +10224,104 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                 //                + tgl + " and rehab_program.kd_dokter like '%" + TCari.getText().trim() + "%' or "
                 //                + tgl + " and dokter.nm_dokter like '%" + TCari.getText().trim() + "%' "
                 + "order by rehab_program.tanggal asc", param);
+                break;
+            case "Upload Protokol Terapi Ke Berkas Digital":
+                FileName = "PROTOKOL_TERAPI_"+ TNoRM.getText() + "_" ;
+                CreatePDF2(FileName);
+                                  //Valid.MyReportPDFUpload("rptCetakPenilaianAwalKeperawatanRanap.jasper", "report", "::[ Laporan Penilaian Awal Keperawatan Rawat Inap ]::",FileName, param);
+                String filePath = "tmpPDF/" + FileName;
+                DefaultTableModel m = new DefaultTableModel();
+                m.addColumn(TNoRM.getText());
+                JTable tbData = new JTable(m);
+                FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "PROTOKOL TERAPI", tbProtokol,1);
+                break;
+            default:
+                throw new AssertionError();
+        }
+//        Valid.MyReportqry("rptCetakResumeProtokol.jasper", "report", "::[ Lembar Protokol Program ]::",
+//                "SELECT pasien.no_rkm_medis, pasien.nm_pasien, pasien.tgl_lahir, pasien.alamat, pasien.no_tlp, petugas.nama, "
+//                + "DATE_FORMAT(rehab_program.tanggal, '%Y-%m-%d') AS tanggal, rehab_program.program,rehab_program_image_marking.url_image"
+//                + " FROM reg_periksa INNER JOIN "
+//                + "rehab_program ON reg_periksa.no_rawat = rehab_program.no_rawat INNER JOIN pasien "
+//                + "ON reg_periksa.no_rkm_medis = pasien.no_rkm_medis INNER JOIN petugas "
+//                + "ON rehab_program.kd_petugas = petugas.nip LEFT JOIN rehab_program_image_marking "
+//                + "ON rehab_program.no_rawat = rehab_program_image_marking.no_rawat where  "
+//                //                + tgl + " and rehab_program.no_rawat like '%" + TCari.getText().trim() + "%' or "
+//                + tgl + " and reg_periksa.no_rkm_medis like '" + TCariPasien.getText() + "' "
+//                //                + tgl + " and pasien.nm_pasien like '%" + TCari.getText().trim() + "%' or  "
+//                //                + tgl + " and rehab_program.program like '%" + TCari.getText().trim() + "%' "
+//                //                + tgl + " and rehab_program.kd_dokter like '%" + TCari.getText().trim() + "%' or "
+//                //                + tgl + " and dokter.nm_dokter like '%" + TCari.getText().trim() + "%' "
+//                + "order by rehab_program.tanggal asc", param);
     }//GEN-LAST:event_BtnPrint5ActionPerformed
+    private void CreatePDF2(String FileName){
+        Map<String, Object> param = new HashMap<>();
+        param.put("namars", akses.getnamars());
+        param.put("alamatrs", akses.getalamatrs());
+        param.put("kotars", akses.getkabupatenrs());
+        param.put("propinsirs", akses.getpropinsirs());
+        param.put("kontakrs", akses.getkontakrs());
+        param.put("emailrs", akses.getemailrs());
+        param.put("tanggalcetak", DTPTgl.getSelectedItem());
+        param.put("logo", Sequel.cariGambar("select setting.logo from setting"));
+        param.put("anamnesa", Anamnesa.getText());
+        param.put("pemeriksaanfisik", PemeriksaanFisik.getText());
+        param.put("diagnosa", DiagnosaTerapi.getText());
+        param.put("tatalaksana", TataLaksana.getText());
+        param.put("anjuran", Anjuran.getText());
+        param.put("evaluasi", Evaluasi.getText());
+//        try {
+//                param.put("url", "http://" + koneksiDB.HOSTHYBRIDWEB() + ":" + koneksiDB.PORTWEB() + "/" + koneksiDB.HYBRIDWEB() + "/imagefreehand/");
+//            } catch (Exception e) {
+//            }
 
+        String urlImage = "";
+
+        try {
+            // Query untuk mengecek apakah ada data di rehab_program_image_marking
+            PreparedStatement ps = koneksi.prepareStatement(
+                    "SELECT COUNT(*) FROM rehab_program_image_marking WHERE no_rawat IN "
+                    + "(SELECT no_rawat FROM reg_periksa WHERE no_rkm_medis LIKE ?)"
+            );
+            ps.setString(1, "%" + TCariPasien.getText() + "%");
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                // Jika ada data, isi URL
+                urlImage = "http://" + koneksiDB.HOSTHYBRIDWEB() + ":" + koneksiDB.PORTWEB() + "/"
+                        + koneksiDB.HYBRIDWEB() + "/imagefreehand/";
+            }
+
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+// Masukkan ke param hanya jika ada data
+        if (!urlImage.isEmpty()) {
+            param.put("url", urlImage);
+        }
+
+        String pas = " and reg_periksa.no_rkm_medis like '%" + TCariPasien.getText() + "%' ";
+
+        String tgl = " rehab_program.tanggal between '" + Valid.SetTgl(DTPCari1.getSelectedItem() + "") + "' and '" + Valid.SetTgl(DTPCari2.getSelectedItem() + "") + "' " + pas;
+        Valid.MyReportqryToPDF("rptCetakResumeProtokol.jasper", "report", "::[ Lembar Protokol Program ]::",
+                "SELECT pasien.no_rkm_medis, pasien.nm_pasien, pasien.tgl_lahir, pasien.alamat, pasien.no_tlp, petugas.nama, "
+                + "DATE_FORMAT(rehab_program.tanggal, '%Y-%m-%d') AS tanggal, rehab_program.program,rehab_program_image_marking.url_image"
+                + " FROM reg_periksa INNER JOIN "
+                + "rehab_program ON reg_periksa.no_rawat = rehab_program.no_rawat INNER JOIN pasien "
+                + "ON reg_periksa.no_rkm_medis = pasien.no_rkm_medis INNER JOIN petugas "
+                + "ON rehab_program.kd_petugas = petugas.nip LEFT JOIN rehab_program_image_marking "
+                + "ON rehab_program.no_rawat = rehab_program_image_marking.no_rawat where  "
+                //                + tgl + " and rehab_program.no_rawat like '%" + TCari.getText().trim() + "%' or "
+                + tgl + " and reg_periksa.no_rkm_medis like '" + TCariPasien.getText() + "' "
+                //                + tgl + " and pasien.nm_pasien like '%" + TCari.getText().trim() + "%' or  "
+                //                + tgl + " and rehab_program.program like '%" + TCari.getText().trim() + "%' "
+                //                + tgl + " and rehab_program.kd_dokter like '%" + TCari.getText().trim() + "%' or "
+                //                + tgl + " and dokter.nm_dokter like '%" + TCari.getText().trim() + "%' "
+                + "order by rehab_program.tanggal asc",FileName,param);
+    }
     private void BtnKeluar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluar4ActionPerformed
         DlgCetak.dispose();
     }//GEN-LAST:event_BtnKeluar4ActionPerformed
