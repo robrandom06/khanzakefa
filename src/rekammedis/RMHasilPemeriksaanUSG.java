@@ -8,6 +8,7 @@ package rekammedis;
 import bridging.ApiOrthanc;
 import bridging.OrthancDICOM;
 import com.fasterxml.jackson.databind.JsonNode;
+import fungsi.FileUploader;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -55,7 +56,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
     private int i=0;
     private DlgCariDokter dokter=new DlgCariDokter(null,false);
     private StringBuilder htmlContent;
-    private String finger="";
+    private String finger="",FileName="";
     private JsonNode root;
     
     /** Creates new form DlgRujuk
@@ -297,6 +298,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         LoadHTML = new widget.editorpane();
         jPopupMenu1 = new javax.swing.JPopupMenu();
         MnPenilaianMedis = new javax.swing.JMenuItem();
+        MnUploadBerkasDigital = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         panelGlass8 = new widget.panelisi();
         BtnSimpan = new widget.Button();
@@ -406,6 +408,20 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
             }
         });
         jPopupMenu1.add(MnPenilaianMedis);
+
+        MnUploadBerkasDigital.setBackground(new java.awt.Color(255, 255, 254));
+        MnUploadBerkasDigital.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnUploadBerkasDigital.setForeground(new java.awt.Color(50, 50, 50));
+        MnUploadBerkasDigital.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnUploadBerkasDigital.setText("Upload Hasil USG Ke Berkas Digital");
+        MnUploadBerkasDigital.setName("MnUploadBerkasDigital"); // NOI18N
+        MnUploadBerkasDigital.setPreferredSize(new java.awt.Dimension(220, 26));
+        MnUploadBerkasDigital.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnUploadBerkasDigitalActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(MnUploadBerkasDigital);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -657,7 +673,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         label11.setBounds(538, 40, 52, 23);
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12-08-2024 04:45:25" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-08-2024 19:18:36" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -988,7 +1004,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12-08-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-08-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1002,7 +1018,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12-08-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-08-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -1681,6 +1697,43 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
         Valid.pindah2(evt,Kelainan,BtnSimpan);
     }//GEN-LAST:event_KesimpulanKeyPressed
 
+    private void MnUploadBerkasDigitalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnUploadBerkasDigitalActionPerformed
+        // TODO add your handling code here:
+        FileName = "HASIL_USG_KANDUNGAN_"+ TNoRM.getText() + "_" ;
+        CreatePDF(FileName);
+        //Valid.MyReportPDFUpload("rptCetakPenilaianAwalKeperawatanRanap.jasper", "report", "::[ Laporan Penilaian Awal Keperawatan Rawat Inap ]::",FileName, param);
+        String filePath = "tmpPDF/" + FileName;
+        DefaultTableModel m = new DefaultTableModel();
+        m.addColumn(TNoRM.getText());
+        JTable tbData = new JTable(m);
+        FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "HASIL USG KANDUNGAN", tbObat,0);
+    }//GEN-LAST:event_MnUploadBerkasDigitalActionPerformed
+    private void CreatePDF(String FileName){
+        if(tbObat.getSelectedRow()>-1){
+            Map<String, Object> param = new HashMap<>();
+            param.put("namars",akses.getnamars());
+            param.put("alamatrs",akses.getalamatrs());
+            param.put("kotars",akses.getkabupatenrs());
+            param.put("propinsirs",akses.getpropinsirs());
+            param.put("kontakrs",akses.getkontakrs());
+            param.put("emailrs",akses.getemailrs());          
+            param.put("logo",Sequel.cariGambar("select setting.logo from setting")); 
+            finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",tbObat.getValueAt(tbObat.getSelectedRow(),4).toString());
+            param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+tbObat.getValueAt(tbObat.getSelectedRow(),5).toString()+"\nID "+(finger.equals("")?tbObat.getValueAt(tbObat.getSelectedRow(),4).toString():finger)+"\n"+Valid.SetTgl3(tbObat.getValueAt(tbObat.getSelectedRow(),6).toString())); 
+            
+            Valid.MyReportqryToPDF("rptCetakHasilPemeriksaanUSG.jasper","report","::[ Formulir Hasil Pemeriksaan USG ]::",
+                "select reg_periksa.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,pasien.tgl_lahir,hasil_pemeriksaan_usg.tanggal,"+
+                "hasil_pemeriksaan_usg.kd_dokter,dokter.nm_dokter,hasil_pemeriksaan_usg.diagnosa_klinis,hasil_pemeriksaan_usg.kiriman_dari,"+
+                "hasil_pemeriksaan_usg.hta,hasil_pemeriksaan_usg.kantong_gestasi,hasil_pemeriksaan_usg.ukuran_bokongkepala,"+
+                "hasil_pemeriksaan_usg.jenis_prestasi,hasil_pemeriksaan_usg.diameter_biparietal,hasil_pemeriksaan_usg.panjang_femur,"+
+                "hasil_pemeriksaan_usg.lingkar_abdomen,hasil_pemeriksaan_usg.tafsiran_berat_janin,hasil_pemeriksaan_usg.usia_kehamilan,"+
+                "hasil_pemeriksaan_usg.plasenta_berimplatansi,hasil_pemeriksaan_usg.derajat_maturitas,hasil_pemeriksaan_usg.jumlah_air_ketuban,"+
+                "hasil_pemeriksaan_usg.indek_cairan_ketuban,hasil_pemeriksaan_usg.kelainan_kongenital,hasil_pemeriksaan_usg.peluang_sex,"+
+                "hasil_pemeriksaan_usg.kesimpulan from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
+                "inner join hasil_pemeriksaan_usg on reg_periksa.no_rawat=hasil_pemeriksaan_usg.no_rawat "+
+                "inner join dokter on hasil_pemeriksaan_usg.kd_dokter=dokter.kd_dokter where hasil_pemeriksaan_usg.no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),0).toString()+"'",FileName,param);
+        }
+    }
     /**
     * @param args the command line arguments
     */
@@ -1731,6 +1784,7 @@ public final class RMHasilPemeriksaanUSG extends javax.swing.JDialog {
     private widget.editorpane LoadHTML;
     private widget.editorpane LoadHTML2;
     private javax.swing.JMenuItem MnPenilaianMedis;
+    private javax.swing.JMenuItem MnUploadBerkasDigital;
     private widget.TextBox NmDokter;
     private widget.PanelBiasa PanelAccor;
     private widget.TextBox PanjangFemur;
