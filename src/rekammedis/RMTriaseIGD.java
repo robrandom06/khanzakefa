@@ -4005,7 +4005,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                   break;
                             case "Upload Triase Ke Berkas Digital Skala 1":
                                   FileName = "TRIASE_"+ tbTriase.getValueAt(tbTriase.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbTriase.getValueAt(tbTriase.getSelectedRow(), 1).toString();
-        Valid.MyReportPDFUpload("rptLembarTriaseSkala1.jasper", "report", "::[ Laporan Resume Pasien ]::",FileName, param);
+        Valid.MyReportqryToPDF("rptLembarTriaseSkala1.jasper", "report", "::[ Triase Skala 1 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",FileName, param);
         String filePath = "tmpPDF/" + FileName;
         FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "TRIASE", tbTriase,0);
                                   break;
@@ -4132,7 +4132,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                   break;
                             case "Upload Triase Ke Berkas Digital Skala 2":
                                   FileName = "TRIASE_"+ tbTriase.getValueAt(tbTriase.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbTriase.getValueAt(tbTriase.getSelectedRow(), 1).toString();
-        Valid.MyReportPDFUpload("rptLembarTriaseSkala2.jasper", "report", "::[ Laporan Resume Pasien ]::",FileName, param);
+        Valid.MyReportqryToPDF("rptLembarTriaseSkala2.jasper", "report", "::[ Triase Skala 2 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",FileName, param);
         String filePath = "tmpPDF/" + FileName;
         FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "TRIASE", tbTriase,0);
                                   break;
@@ -4258,7 +4258,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                   break;
                             case "Upload Triase Ke Berkas Digital Skala 3":
                                   FileName = "TRIASE_"+ tbTriase.getValueAt(tbTriase.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbTriase.getValueAt(tbTriase.getSelectedRow(), 1).toString();
-        Valid.MyReportPDFUpload("rptLembarTriaseSkala3.jasper", "report", "::[ Laporan Resume Pasien ]::",FileName, param);
+        Valid.MyReportqryToPDF("rptLembarTriaseSkala3.jasper", "report", "::[ Triase Skala 3 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",FileName, param);
         String filePath = "tmpPDF/" + FileName;
         FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "TRIASE", tbTriase,0);
                                   break;
@@ -4384,7 +4384,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                   break;
                             case "Upload Triase Ke Berkas Digital Skala 4":
                                   FileName = "TRIASE_"+ tbTriase.getValueAt(tbTriase.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbTriase.getValueAt(tbTriase.getSelectedRow(), 1).toString();
-        Valid.MyReportPDFUpload("rptLembarTriaseSkala4.jasper", "report", "::[ Laporan Resume Pasien ]::",FileName, param);
+        Valid.MyReportqryToPDF("rptLembarTriaseSkala4.jasper", "report", "::[ Triase Skala 4 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",FileName, param);
         String filePath = "tmpPDF/" + FileName;
         FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "TRIASE", tbTriase,0);
                                   break;
@@ -4510,7 +4510,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                   break;
                             case "Upload Triase Ke Berkas Digital Skala 5":
                                   FileName = "TRIASE_"+ tbTriase.getValueAt(tbTriase.getSelectedRow(), 0).toString().replaceAll("/", "") + "_" + tbTriase.getValueAt(tbTriase.getSelectedRow(), 1).toString();
-        Valid.MyReportPDFUpload("rptLembarTriaseSkala5.jasper", "report", "::[ Laporan Resume Pasien ]::",FileName, param);
+        Valid.MyReportqryToPDF("rptLembarTriaseSkala5.jasper", "report", "::[ Triase Skala 5 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",FileName, param);
         String filePath = "tmpPDF/" + FileName;
         FileUploader.UploadPDF(FileName, "berkasrawat/pages/upload/", "TRIASE", tbTriase,0);
                                   break;
